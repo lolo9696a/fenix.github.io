@@ -20,7 +20,7 @@ html{overflow-x:hidden;scroll-behavior:smooth;}
 body{background:var(--bg);color:var(--white);font-family:'DM Sans',sans-serif;overflow-x:hidden;}
 
 /* PAGE SYSTEM */
-.page{display:none;width:100%;}
+.page{display:none;width:100%;min-height:100vh;}
 .page.active{display:block;}
 
 /* CURSOR — purely decorative, never blocks interaction */
@@ -82,7 +82,6 @@ nav.scrolled{background:rgba(4,4,10,0.96);border-bottom:1px solid var(--bor);pad
 .nav-cta:hover{background:var(--gold);color:var(--bg);}
 
 /* ── HOME ── */
-#home{display:block;}
 
 /* HERO */
 .hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
@@ -1204,7 +1203,7 @@ footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 4
     <div class="footer-col">
       <h4>Contact</h4>
       <ul class="footer-links">
-        <li><a href="mailto:info@fenixlive.com">info@fenixlive.com</a></li>
+        <li><a href="/cdn-cgi/l/email-protection#1c75727a735c7a7972756470756a79327f7371"><span class="__cf_email__" data-cfemail="71181f171e3117141f18091d1807145f121e1c">[email&#160;protected]</span></a></li>
         <li><a href="#">+1 (800) FENIX-LD</a></li>
         <li><a href="#">24/7 Support</a></li>
         <li><a href="#" onclick="showPage('contact')">Book a Demo</a></li>
@@ -1221,7 +1220,7 @@ footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 4
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 /* ── CURSOR ── */
 const cur=document.getElementById('cur'),ring=document.getElementById('curRing');
 let mx=0,my=0,rx=0,ry=0;
@@ -1248,13 +1247,15 @@ function closeMobile(){
 /* ── PAGE NAV ── */
 function showPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+  const target=document.getElementById(id);
+  if(target){target.classList.add('active');}
   window.scrollTo({top:0,behavior:'instant'});
   setTimeout(()=>{initReveal();initCounters();},80);
   document.querySelectorAll('.nav-links a').forEach(a=>{
     const txt=a.textContent.trim().toLowerCase();
-    a.style.color=(txt===id||(txt==='home'&&id==='home'))?'var(--gold)':'';
+    a.style.color=(txt===id)?'var(--gold)':'';
   });
+  return false;
 }
 
 /* ── PARTICLES ── */
@@ -1263,7 +1264,7 @@ function showPage(id){
   if(!c)return;
   for(let i=0;i<40;i++){
     const p=document.createElement('div');p.className='particle';
-    p.style.cssText=`left:${Math.random()*100}%;bottom:-10px;animation-duration:${6+Math.random()*14}s;animation-delay:${-Math.random()*20}s;width:${1+Math.random()*1.5}px;height:${1+Math.random()*1.5}px;`;
+    p.style.cssText='left:'+Math.random()*100+'%;bottom:-10px;animation-duration:'+(6+Math.random()*14)+'s;animation-delay:'+(-Math.random()*20)+'s;width:'+(1+Math.random()*1.5)+'px;height:'+(1+Math.random()*1.5)+'px;';
     c.appendChild(p);
   }
 })();
@@ -1277,7 +1278,9 @@ initReveal();
 
 /* ── COUNTERS ── */
 function animCounter(el,target){
-  let c=0;const step=target/60;const t=setInterval(()=>{c+=step;if(c>=target){c=target;clearInterval(t);}el.textContent=Math.round(c)+(el.dataset.count==='99'?'%':'+');},18);
+  let c=0;const step=target/60;
+  const t=setInterval(()=>{c+=step;if(c>=target){c=target;clearInterval(t);}
+    el.textContent=Math.round(c)+(el.dataset.count==='99'?'%':'+');},18);
 }
 function initCounters(){
   document.querySelectorAll('[data-count]').forEach(el=>{
@@ -1313,7 +1316,7 @@ document.querySelectorAll('.tilt').forEach(el=>{
     const r=el.getBoundingClientRect();
     const x=(e.clientX-r.left)/r.width-.5;
     const y=(e.clientY-r.top)/r.height-.5;
-    el.style.transform=`perspective(600px) rotateY(${x*10}deg) rotateX(${-y*10}deg)`;
+    el.style.transform='perspective(600px) rotateY('+(x*10)+'deg) rotateX('+(-y*10)+'deg)';
   });
   el.addEventListener('mouseleave',()=>{el.style.transform='';});
 });
@@ -1334,12 +1337,10 @@ document.querySelectorAll('.story-nav-item').forEach((item,i)=>{
     });
   });
 });
-// Show only first story block by default
 (function(){
   const blocks=document.querySelectorAll('.story-block');
-  blocks.forEach((b,i)=>b.style.display=i===0?'block':'none');
+  blocks.forEach((b,i)=>{ b.style.display=i===0?'block':'none'; });
 })();
-
 </script>
 </body>
 </html>
