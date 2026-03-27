@@ -16,12 +16,17 @@
   --r:8px;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;overflow-x:hidden;}
-body{background:var(--bg);color:var(--white);font-family:'DM Sans',sans-serif;overflow-x:hidden;cursor:none;}
+html{overflow-x:hidden;scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--white);font-family:'DM Sans',sans-serif;overflow-x:hidden;}
 
-/* CURSOR */
-.cur{position:fixed;width:10px;height:10px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s;}
-.cur-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(201,168,76,0.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s;mix-blend-mode:difference;}
+/* PAGE SYSTEM */
+.page{display:none;width:100%;}
+.page.active{display:block;}
+
+/* CURSOR — purely decorative, never blocks interaction */
+.cur{position:fixed;width:10px;height:10px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s;opacity:0;mix-blend-mode:difference;}
+.cur-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(201,168,76,0.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s;opacity:0;}
+@media(hover:hover) and (pointer:fine){.cur,.cur-ring{opacity:1;}}
 
 /* SCROLLBAR */
 ::-webkit-scrollbar{width:2px;}
@@ -29,7 +34,7 @@ body{background:var(--bg);color:var(--white);font-family:'DM Sans',sans-serif;ov
 ::-webkit-scrollbar-thumb{background:var(--gold-d);}
 
 /* HAMBURGER */
-.hamburger{display:none;flex-direction:column;gap:5px;cursor:none;z-index:1100;background:none;border:none;padding:4px;}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;z-index:1100;background:none;border:none;padding:4px;}
 .hamburger span{display:block;width:24px;height:1.5px;background:var(--gold);transition:all .3s;}
 .hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
 .hamburger.open span:nth-child(2){opacity:0;}
@@ -62,7 +67,7 @@ nav.scrolled{background:rgba(4,4,10,0.96);border-bottom:1px solid var(--bor);pad
 .nav-links{display:flex;gap:36px;list-style:none;}
 .nav-links a{
   color:var(--dim2);text-decoration:none;font-size:12px;
-  letter-spacing:3px;text-transform:uppercase;transition:color .3s;cursor:none;
+  letter-spacing:3px;text-transform:uppercase;transition:color .3s;cursor:pointer;
   position:relative;
 }
 .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:1px;background:var(--gold);transform:scaleX(0);transition:transform .3s;transform-origin:right;}
@@ -72,13 +77,9 @@ nav.scrolled{background:rgba(4,4,10,0.96);border-bottom:1px solid var(--bor);pad
   background:transparent;border:1px solid var(--gold);
   color:var(--gold);padding:10px 28px;
   font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;
-  cursor:none;transition:all .3s;text-decoration:none;
+  cursor:pointer;transition:all .3s;text-decoration:none;
 }
 .nav-cta:hover{background:var(--gold);color:var(--bg);}
-
-/* PAGES */
-.page{display:none;}
-.page.active{display:block;}
 
 /* ── HOME ── */
 #home{display:block;}
@@ -189,7 +190,7 @@ nav.scrolled{background:rgba(4,4,10,0.96);border-bottom:1px solid var(--bor);pad
   background:var(--gold);color:var(--bg);
   padding:15px 44px;border:none;
   font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;
-  cursor:none;transition:all .3s;text-decoration:none;display:inline-block;position:relative;overflow:hidden;font-weight:600;
+  cursor:pointer;transition:all .3s;text-decoration:none;display:inline-block;position:relative;overflow:hidden;font-weight:600;
 }
 .btn-primary::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.2),transparent);transform:translateX(-100%);transition:transform .4s;}
 .btn-primary:hover::after{transform:translateX(100%);}
@@ -197,7 +198,7 @@ nav.scrolled{background:rgba(4,4,10,0.96);border-bottom:1px solid var(--bor);pad
 .btn-outline{
   background:transparent;border:1px solid var(--bor);color:var(--white);
   padding:15px 44px;font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;
-  cursor:none;transition:all .3s;text-decoration:none;display:inline-block;
+  cursor:pointer;transition:all .3s;text-decoration:none;display:inline-block;
 }
 .btn-outline:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px);}
 
@@ -283,7 +284,7 @@ nav.scrolled{background:rgba(4,4,10,0.96);border-bottom:1px solid var(--bor);pad
 .features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:56px;}
 .feat-card{
   background:var(--bg3);padding:48px 36px;
-  position:relative;overflow:hidden;transition:background .3s,transform .3s;cursor:none;
+  position:relative;overflow:hidden;transition:background .3s,transform .3s;
 }
 .feat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent);transform:scaleX(0);transition:transform .4s;}
 .feat-card:hover::before{transform:scaleX(1);}
@@ -313,7 +314,7 @@ nav.scrolled{background:rgba(4,4,10,0.96);border-bottom:1px solid var(--bor);pad
 .faq-item{border-bottom:1px solid var(--bor2);overflow:hidden;}
 .faq-q{
   display:flex;align-items:center;justify-content:space-between;
-  padding:28px 0;cursor:none;
+  padding:28px 0;
   font-family:'Playfair Display',serif;font-size:20px;font-weight:400;
   transition:color .3s;
 }
@@ -336,7 +337,7 @@ nav.scrolled{background:rgba(4,4,10,0.96);border-bottom:1px solid var(--bor);pad
 .story-nav{position:sticky;top:110px;height:fit-content;}
 .story-nav-item{
   padding:18px 0;border-bottom:1px solid var(--bor2);
-  font-size:11px;letter-spacing:3px;color:var(--dim);text-transform:uppercase;cursor:none;
+  font-size:11px;letter-spacing:3px;color:var(--dim);text-transform:uppercase;
   transition:color .3s;display:flex;align-items:center;gap:14px;
 }
 .story-nav-item.active{color:var(--gold);}
@@ -354,7 +355,7 @@ nav.scrolled{background:rgba(4,4,10,0.96);border-bottom:1px solid var(--bor);pad
 /* ── SERVICES PAGE ── */
 .services-hero{padding:160px 64px 80px;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(168,25,46,.05),transparent);}
 .services-grid{padding:0 64px 80px;display:grid;grid-template-columns:1fr 1fr;gap:3px;}
-.svc-card{background:var(--bg3);padding:56px 48px;position:relative;overflow:hidden;transition:background .3s;cursor:none;}
+.svc-card{background:var(--bg3);padding:56px 48px;position:relative;overflow:hidden;transition:background .3s;}
 .svc-card::after{content:'';position:absolute;right:-80px;bottom:-80px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,.04),transparent 70%);transition:right .5s,bottom .5s;}
 .svc-card:hover::after{right:-40px;bottom:-40px;}
 .svc-card:hover{background:#0f0f1a;}
@@ -372,10 +373,10 @@ nav.scrolled{background:rgba(4,4,10,0.96);border-bottom:1px solid var(--bor);pad
 /* ── GALLERY PAGE ── */
 .gallery-hero{padding:160px 64px 60px;}
 .gallery-filters{padding:0 64px 36px;display:flex;gap:12px;flex-wrap:wrap;}
-.gal-filter{border:1px solid var(--bor2);padding:9px 22px;font-size:11px;letter-spacing:3px;color:var(--dim);text-transform:uppercase;cursor:none;background:transparent;transition:all .3s;}
+.gal-filter{border:1px solid var(--bor2);padding:9px 22px;font-size:11px;letter-spacing:3px;color:var(--dim);text-transform:uppercase;background:transparent;transition:all .3s;}
 .gal-filter.active,.gal-filter:hover{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,.04);}
 .gallery-grid{padding:0 64px 80px;display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:190px;gap:4px;}
-.gal-item{overflow:hidden;cursor:none;position:relative;background:var(--bg3);transition:transform .3s;}
+.gal-item{overflow:hidden;position:relative;background:var(--bg3);transition:transform .3s;}
 .gal-item:hover{z-index:2;transform:scale(1.02);}
 .gal-item:hover .gal-overlay{opacity:1;}
 .gal-item:nth-child(1){grid-column:span 5;grid-row:span 2;}
@@ -435,21 +436,23 @@ footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 4
 .footer-col h4{font-size:10px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:22px;}
 .footer-links{list-style:none;}
 .footer-links li{margin-bottom:10px;}
-.footer-links a{color:var(--dim2);text-decoration:none;font-size:13px;transition:color .3s;cursor:none;}
+.footer-links a{color:var(--dim2);text-decoration:none;font-size:13px;transition:color .3s;}
 .footer-links a:hover{color:var(--gold);}
 .footer-bottom{border-top:1px solid var(--bor2);padding-top:28px;display:flex;justify-content:space-between;align-items:center;}
 .footer-copy{font-size:11px;color:var(--dim);letter-spacing:2px;}
 .footer-social{display:flex;gap:12px;}
-.soc-btn{width:34px;height:34px;border:1px solid var(--bor2);display:flex;align-items:center;justify-content:center;color:var(--dim2);font-size:13px;cursor:none;transition:all .3s;text-decoration:none;}
+.soc-btn{width:34px;height:34px;border:1px solid var(--bor2);display:flex;align-items:center;justify-content:center;color:var(--dim2);font-size:13px;transition:all .3s;text-decoration:none;}
 .soc-btn:hover{border-color:var(--gold);color:var(--gold);}
 
 /* REVEAL */
-.reveal{opacity:0;transform:translateY(36px);transition:opacity .8s ease,transform .8s ease;}
-.reveal.visible{opacity:1;transform:translateY(0);}
-.reveal-l{opacity:0;transform:translateX(-36px);transition:opacity .8s ease,transform .8s ease;}
-.reveal-l.visible{opacity:1;transform:translateX(0);}
-.reveal-r{opacity:0;transform:translateX(36px);transition:opacity .8s ease,transform .8s ease;}
-.reveal-r.visible{opacity:1;transform:translateX(0);}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.visible{opacity:1;transform:none;}
+.reveal-l{opacity:0;transform:translateX(-28px);transition:opacity .7s ease,transform .7s ease;}
+.reveal-l.visible{opacity:1;transform:none;}
+.reveal-r{opacity:0;transform:translateX(28px);transition:opacity .7s ease,transform .7s ease;}
+.reveal-r.visible{opacity:1;transform:none;}
+/* Fallback: if JS fails or IntersectionObserver not supported, show everything */
+@media (prefers-reduced-motion: reduce){.reveal,.reveal-l,.reveal-r{opacity:1;transform:none;}}
 
 /* TILT */
 .tilt{transform-style:preserve-3d;transition:transform .12s ease;}
@@ -459,7 +462,7 @@ footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 4
 .live-dot{width:6px;height:6px;background:#e05060;border-radius:50%;animation:blink 1s infinite;}
 
 /* SOCIAL BTN */
-.social-btn{width:40px;height:40px;border:1px solid var(--bor2);display:flex;align-items:center;justify-content:center;color:var(--dim2);font-size:15px;cursor:none;transition:all .3s;text-decoration:none;}
+.social-btn{width:40px;height:40px;border:1px solid var(--bor2);display:flex;align-items:center;justify-content:center;color:var(--dim2);font-size:15px;transition:all .3s;text-decoration:none;}
 .social-btn:hover{border-color:var(--gold);color:var(--gold);}
 
 /* RESPONSIVE */
@@ -830,7 +833,7 @@ footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 4
       <div class="footer-col">
         <h4>Contact</h4>
         <ul class="footer-links">
-          <li><a href="mailto:hello@fenixstudio.com">hello@fenixstudio.com</a></li>
+          <li><a href="/cdn-cgi/l/email-protection#a6cec3cacac9e6c0c3c8cfded5d2d3c2cfc988c5c9cb"><span class="__cf_email__" data-cfemail="1078757c7c7f5076757e796863646574797f3e737f7d">[email&#160;protected]</span></a></li>
           <li><a href="#">+1 (800) FENIX-LD</a></li>
           <li><a href="#">24/7 Support</a></li>
           <li><a href="#" onclick="showPage('contact')">Book a Demo</a></li>
@@ -930,7 +933,7 @@ footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 4
       </div>
       <div class="footer-col"><h4>Navigate</h4><ul class="footer-links"><li><a href="#" onclick="showPage('home')">Home</a></li><li><a href="#" onclick="showPage('about')">About</a></li><li><a href="#" onclick="showPage('services')">Services</a></li><li><a href="#" onclick="showPage('gallery')">Gallery</a></li><li><a href="#" onclick="showPage('faq')">FAQ</a></li><li><a href="#" onclick="showPage('contact')">Contact</a></li></ul></div>
       <div class="footer-col"><h4>Services</h4><ul class="footer-links"><li><a href="#">Studio Management</a></li><li><a href="#">Custom Tables</a></li><li><a href="#">Live Streaming</a></li><li><a href="#">Professional Dealers</a></li></ul></div>
-      <div class="footer-col"><h4>Contact</h4><ul class="footer-links"><li><a href="mailto:hello@fenixstudio.com">hello@fenixstudio.com</a></li><li><a href="#">24/7 Support</a></li><li><a href="#" onclick="showPage('contact')">Book a Demo</a></li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul class="footer-links"><li><a href="/cdn-cgi/l/email-protection#ef878a838380af898a8186979c9b9a8b8680c18c8082"><span class="__cf_email__" data-cfemail="bcd4d9d0d0d3fcdad9d2d5c4cfc8c9d8d5d392dfd3d1">[email&#160;protected]</span></a></li><li><a href="#">24/7 Support</a></li><li><a href="#" onclick="showPage('contact')">Book a Demo</a></li></ul></div>
     </div>
     <div class="footer-bottom">
       <div class="footer-copy">© 2025 FENIX LIVE DEALER STUDIO. ALL RIGHTS RESERVED.</div>
@@ -1021,7 +1024,7 @@ footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 4
       <div class="footer-brand"><div class="footer-logo">FENIX</div><div class="footer-logo-sub">LIVE DEALER STUDIO</div><p>The world's most trusted professional live dealer studio management provider.</p></div>
       <div class="footer-col"><h4>Navigate</h4><ul class="footer-links"><li><a href="#" onclick="showPage('home')">Home</a></li><li><a href="#" onclick="showPage('about')">About</a></li><li><a href="#" onclick="showPage('services')">Services</a></li><li><a href="#" onclick="showPage('gallery')">Gallery</a></li><li><a href="#" onclick="showPage('faq')">FAQ</a></li><li><a href="#" onclick="showPage('contact')">Contact</a></li></ul></div>
       <div class="footer-col"><h4>Services</h4><ul class="footer-links"><li><a href="#">Studio Management</a></li><li><a href="#">Custom Tables</a></li><li><a href="#">Live Streaming</a></li><li><a href="#">Professional Dealers</a></li></ul></div>
-      <div class="footer-col"><h4>Contact</h4><ul class="footer-links"><li><a href="mailto:hello@fenixstudio.com">hello@fenixstudio.com</a></li><li><a href="#">24/7 Support</a></li><li><a href="#" onclick="showPage('contact')">Book a Demo</a></li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul class="footer-links"><li><a href="/cdn-cgi/l/email-protection#95fdf0f9f9fad5f3f0fbfcede6e1e0f1fcfabbf6faf8"><span class="__cf_email__" data-cfemail="563e333a3a39163033383f2e252223323f397835393b">[email&#160;protected]</span></a></li><li><a href="#">24/7 Support</a></li><li><a href="#" onclick="showPage('contact')">Book a Demo</a></li></ul></div>
     </div>
     <div class="footer-bottom"><div class="footer-copy">© 2025 FENIX LIVE DEALER STUDIO. ALL RIGHTS RESERVED.</div><div class="footer-social"><a href="#" class="soc-btn">in</a><a href="#" class="soc-btn">𝕏</a><a href="#" class="soc-btn">▶</a></div></div>
   </footer>
@@ -1068,7 +1071,7 @@ footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 4
       <div class="footer-brand"><div class="footer-logo">FENIX</div><div class="footer-logo-sub">LIVE DEALER STUDIO</div><p>The world's most trusted professional live dealer studio management provider.</p></div>
       <div class="footer-col"><h4>Navigate</h4><ul class="footer-links"><li><a href="#" onclick="showPage('home')">Home</a></li><li><a href="#" onclick="showPage('about')">About</a></li><li><a href="#" onclick="showPage('services')">Services</a></li><li><a href="#" onclick="showPage('gallery')">Gallery</a></li><li><a href="#" onclick="showPage('faq')">FAQ</a></li><li><a href="#" onclick="showPage('contact')">Contact</a></li></ul></div>
       <div class="footer-col"><h4>Services</h4><ul class="footer-links"><li><a href="#">Studio Management</a></li><li><a href="#">Custom Tables</a></li><li><a href="#">Live Streaming</a></li><li><a href="#">Professional Dealers</a></li></ul></div>
-      <div class="footer-col"><h4>Contact</h4><ul class="footer-links"><li><a href="mailto:hello@fenixstudio.com">hello@fenixstudio.com</a></li><li><a href="#">24/7 Support</a></li><li><a href="#" onclick="showPage('contact')">Book a Demo</a></li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul class="footer-links"><li><a href="/cdn-cgi/l/email-protection#e58d8089898aa583808b8c9d969190818c8acb868a88"><span class="__cf_email__" data-cfemail="94fcf1f8f8fbd4f2f1fafdece7e0e1f0fdfbbaf7fbf9">[email&#160;protected]</span></a></li><li><a href="#">24/7 Support</a></li><li><a href="#" onclick="showPage('contact')">Book a Demo</a></li></ul></div>
     </div>
     <div class="footer-bottom"><div class="footer-copy">© 2025 FENIX LIVE DEALER STUDIO. ALL RIGHTS RESERVED.</div><div class="footer-social"><a href="#" class="soc-btn">in</a><a href="#" class="soc-btn">𝕏</a><a href="#" class="soc-btn">▶</a></div></div>
   </footer>
@@ -1173,7 +1176,7 @@ footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 4
       <div class="footer-brand"><div class="footer-logo">FENIX</div><div class="footer-logo-sub">LIVE DEALER STUDIO</div><p>The world's most trusted professional live dealer studio management provider.</p></div>
       <div class="footer-col"><h4>Navigate</h4><ul class="footer-links"><li><a href="#" onclick="showPage('home')">Home</a></li><li><a href="#" onclick="showPage('about')">About</a></li><li><a href="#" onclick="showPage('services')">Services</a></li><li><a href="#" onclick="showPage('gallery')">Gallery</a></li><li><a href="#" onclick="showPage('faq')">FAQ</a></li><li><a href="#" onclick="showPage('contact')">Contact</a></li></ul></div>
       <div class="footer-col"><h4>Services</h4><ul class="footer-links"><li><a href="#">Studio Management</a></li><li><a href="#">Custom Tables</a></li><li><a href="#">Live Streaming</a></li><li><a href="#">Professional Dealers</a></li></ul></div>
-      <div class="footer-col"><h4>Contact</h4><ul class="footer-links"><li><a href="mailto:hello@fenixstudio.com">hello@fenixstudio.com</a></li><li><a href="#">24/7 Support</a></li><li><a href="#" onclick="showPage('contact')">Book a Demo</a></li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul class="footer-links"><li><a href="/cdn-cgi/l/email-protection#9af2fff6f6f5dafcfff4f3e2e9eeeffef3f5b4f9f5f7"><span class="__cf_email__" data-cfemail="2149444d4d4e6147444f485952555445484e0f424e4c">[email&#160;protected]</span></a></li><li><a href="#">24/7 Support</a></li><li><a href="#" onclick="showPage('contact')">Book a Demo</a></li></ul></div>
     </div>
     <div class="footer-bottom"><div class="footer-copy">© 2025 FENIX LIVE DEALER STUDIO. ALL RIGHTS RESERVED.</div><div class="footer-social"><a href="#" class="soc-btn">in</a><a href="#" class="soc-btn">𝕏</a><a href="#" class="soc-btn">▶</a></div></div>
   </footer>
@@ -1191,7 +1194,7 @@ footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 4
     <div class="contact-info">
       <div class="contact-item reveal">
         <div class="ci-label">Email</div>
-        <div class="ci-value">hello@fenixstudio.com</div>
+        <div class="ci-value"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4129242d2d2e0127242f283932353425282e6f222e2c">[email&#160;protected]</a></div>
         <div class="ci-sub">For general inquiries and demos</div>
       </div>
       <div class="contact-item reveal">
@@ -1206,7 +1209,7 @@ footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 4
       </div>
       <div class="contact-item reveal">
         <div class="ci-label">Partnerships</div>
-        <div class="ci-value">partners@fenixstudio.com</div>
+        <div class="ci-value"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="9dedfcefe9f3f8efeeddfbf8f3f4e5eee9e8f9f4f2b3fef2f0">[email&#160;protected]</a></div>
         <div class="ci-sub">Technology and affiliate partnerships</div>
       </div>
       <div class="reveal" style="margin-top:24px;">
@@ -1256,7 +1259,7 @@ footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 4
         <label class="form-label">Message</label>
         <textarea class="form-textarea" placeholder="Tell us about your project, timeline, and requirements..."></textarea>
       </div>
-      <button class="btn-primary" style="width:100%;border:none;font-size:12px;cursor:none;" onclick="submitForm(this)">
+      <button class="btn-primary" style="width:100%;border:none;font-size:12px;" onclick="submitForm(this)">
         Send Message
       </button>
       <p style="font-size:11px;color:var(--dim);margin-top:14px;text-align:center;letter-spacing:1px;">We respond within 24 hours · All communications are confidential</p>
@@ -1268,25 +1271,46 @@ footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 4
       <div class="footer-brand"><div class="footer-logo">FENIX</div><div class="footer-logo-sub">LIVE DEALER STUDIO</div><p>The world's most trusted professional live dealer studio management provider.</p></div>
       <div class="footer-col"><h4>Navigate</h4><ul class="footer-links"><li><a href="#" onclick="showPage('home')">Home</a></li><li><a href="#" onclick="showPage('about')">About</a></li><li><a href="#" onclick="showPage('services')">Services</a></li><li><a href="#" onclick="showPage('gallery')">Gallery</a></li><li><a href="#" onclick="showPage('faq')">FAQ</a></li><li><a href="#" onclick="showPage('contact')">Contact</a></li></ul></div>
       <div class="footer-col"><h4>Services</h4><ul class="footer-links"><li><a href="#">Studio Management</a></li><li><a href="#">Custom Tables</a></li><li><a href="#">Live Streaming</a></li><li><a href="#">Professional Dealers</a></li></ul></div>
-      <div class="footer-col"><h4>Contact</h4><ul class="footer-links"><li><a href="mailto:hello@fenixstudio.com">hello@fenixstudio.com</a></li><li><a href="#">24/7 Support</a></li><li><a href="#" onclick="showPage('contact')">Book a Demo</a></li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul class="footer-links"><li><a href="/cdn-cgi/l/email-protection#aac2cfc6c6c5eacccfc4c3d2d9dedfcec3c584c9c5c7"><span class="__cf_email__" data-cfemail="355d5059595a7553505b5c4d464140515c5a1b565a58">[email&#160;protected]</span></a></li><li><a href="#">24/7 Support</a></li><li><a href="#" onclick="showPage('contact')">Book a Demo</a></li></ul></div>
     </div>
     <div class="footer-bottom"><div class="footer-copy">© 2025 FENIX LIVE DEALER STUDIO. ALL RIGHTS RESERVED.</div><div class="footer-social"><a href="#" class="soc-btn">in</a><a href="#" class="soc-btn">𝕏</a><a href="#" class="soc-btn">▶</a></div></div>
   </footer>
 </div>
 
+
 <script>
-/* ── CURSOR ── */
+/* ── CURSOR (decorative only, never blocks clicks) ── */
 const cur=document.getElementById('cur'),ring=document.getElementById('curRing');
 let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
-(function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);})();
-document.querySelectorAll('a,button,.feat-card,.svc-card,.gal-item,.faq-q,.val-card').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{cur.style.width='18px';cur.style.height='18px';ring.style.width='56px';ring.style.height='56px';ring.style.borderColor='rgba(201,168,76,0.8)';});
-  el.addEventListener('mouseleave',()=>{cur.style.width='10px';cur.style.height='10px';ring.style.width='36px';ring.style.height='36px';ring.style.borderColor='rgba(201,168,76,0.5)';});
-});
+const isTouchDevice=()=>window.matchMedia('(hover:none)').matches||!window.matchMedia('(pointer:fine)').matches;
+if(!isTouchDevice()){
+  document.addEventListener('mousemove',e=>{
+    mx=e.clientX;my=e.clientY;
+    cur.style.left=mx+'px';cur.style.top=my+'px';
+  });
+  (function animRing(){
+    rx+=(mx-rx)*.12;ry+=(my-ry)*.12;
+    ring.style.left=rx+'px';ring.style.top=ry+'px';
+    requestAnimationFrame(animRing);
+  })();
+  document.querySelectorAll('a,button,.feat-card,.svc-card,.gal-item,.faq-q,.val-card').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{
+      cur.style.width='18px';cur.style.height='18px';
+      ring.style.width='56px';ring.style.height='56px';
+      ring.style.borderColor='rgba(201,168,76,0.8)';
+    });
+    el.addEventListener('mouseleave',()=>{
+      cur.style.width='10px';cur.style.height='10px';
+      ring.style.width='36px';ring.style.height='36px';
+      ring.style.borderColor='rgba(201,168,76,0.5)';
+    });
+  });
+}
 
 /* ── NAV SCROLL ── */
-window.addEventListener('scroll',()=>{document.getElementById('mainNav').classList.toggle('scrolled',window.scrollY>50);});
+window.addEventListener('scroll',()=>{
+  document.getElementById('mainNav').classList.toggle('scrolled',window.scrollY>50);
+});
 
 /* ── MOBILE MENU ── */
 function toggleMobile(){
@@ -1301,12 +1325,18 @@ function closeMobile(){
 /* ── PAGE NAV ── */
 function showPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  window.scrollTo({top:0,behavior:'instant'});
-  setTimeout(()=>{initReveal();initCounters();},80);
+  const pg=document.getElementById(id);
+  if(pg){
+    pg.classList.add('active');
+    // Mark all reveals on this page as visible immediately so nothing is hidden
+    pg.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el=>el.classList.add('visible'));
+  }
+  window.scrollTo(0,0);
+  setTimeout(()=>initReveal(),100);
+  setTimeout(()=>initCounters(),150);
   document.querySelectorAll('.nav-links a').forEach(a=>{
     const txt=a.textContent.trim().toLowerCase();
-    a.style.color=(txt===id||(txt==='home'&&id==='home'))?'var(--gold)':'';
+    a.style.color=(txt===id)?'var(--gold)':'';
   });
 }
 
@@ -1314,34 +1344,82 @@ function showPage(id){
 (function(){
   const c=document.getElementById('particles');
   if(!c)return;
-  for(let i=0;i<40;i++){
-    const p=document.createElement('div');p.className='particle';
-    p.style.cssText=`left:${Math.random()*100}%;bottom:-10px;animation-duration:${6+Math.random()*14}s;animation-delay:${-Math.random()*20}s;width:${1+Math.random()*1.5}px;height:${1+Math.random()*1.5}px;`;
+  for(let i=0;i<35;i++){
+    const p=document.createElement('div');
+    p.className='particle';
+    p.style.cssText='left:'+Math.random()*100+'%;bottom:-10px;animation-duration:'+(6+Math.random()*14)+'s;animation-delay:'+(-Math.random()*20)+'s;width:'+(1+Math.random()*1.5)+'px;height:'+(1+Math.random()*1.5)+'px;';
     c.appendChild(p);
   }
 })();
 
-/* ── REVEAL ── */
+/* ── REVEAL (IntersectionObserver) ── */
 function initReveal(){
-  const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:.08});
-  document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el=>obs.observe(el));
+  if(!('IntersectionObserver' in window)){
+    // Fallback: make everything visible
+    document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el=>el.classList.add('visible'));
+    return;
+  }
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');}});
+  },{threshold:0.05,rootMargin:'0px 0px -40px 0px'});
+  // Only observe elements inside the active page
+  const active=document.querySelector('.page.active');
+  if(active){
+    active.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el=>{
+      if(!el.classList.contains('visible'))obs.observe(el);
+    });
+  }
 }
-initReveal();
+// Run on initial load - make home page elements visible
+document.addEventListener('DOMContentLoaded',()=>{
+  const home=document.getElementById('home');
+  if(home){
+    // Immediately show above-the-fold elements
+    home.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el=>el.classList.add('visible'));
+  }
+  initReveal();
+  initCounters();
+});
+// Also run right now in case DOMContentLoaded already fired
+(function(){
+  const home=document.getElementById('home');
+  if(home) home.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el=>el.classList.add('visible'));
+  initReveal();
+})();
 
 /* ── COUNTERS ── */
 function animCounter(el,target){
-  let c=0;const step=target/60;const t=setInterval(()=>{c+=step;if(c>=target){c=target;clearInterval(t);}el.textContent=Math.round(c)+(el.dataset.count==='99'?'%':'+');},18);
+  if(el._counting)return;
+  el._counting=true;
+  let c=0;const step=target/60;
+  const t=setInterval(()=>{
+    c+=step;
+    if(c>=target){c=target;clearInterval(t);}
+    el.textContent=Math.round(c)+(el.dataset.count==='99'?'%':'+');
+  },18);
 }
-function initCounters(){document.querySelectorAll('.stat-num[data-count]').forEach(el=>animCounter(el,parseInt(el.dataset.count)));}
+function initCounters(){
+  document.querySelectorAll('.stat-num[data-count]').forEach(el=>{
+    el._counting=false;
+    animCounter(el,parseInt(el.dataset.count));
+  });
+}
 initCounters();
 
-/* ── TILT ── */
-document.querySelectorAll('.tilt').forEach(c=>{
-  c.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5;const y=(e.clientY-r.top)/r.height-.5;c.style.transform=`perspective(600px) rotateY(${x*8}deg) rotateX(${-y*8}deg) translateZ(8px)`;});
-  c.addEventListener('mouseleave',()=>{c.style.transform='';});
-});
+/* ── TILT on hover (desktop only) ── */
+if(!isTouchDevice()){
+  document.querySelectorAll('.tilt').forEach(c=>{
+    c.addEventListener('mousemove',e=>{
+      const r=c.getBoundingClientRect();
+      const x=(e.clientX-r.left)/r.width-.5;
+      const y=(e.clientY-r.top)/r.height-.5;
+      c.style.transform='perspective(600px) rotateY('+(x*8)+'deg) rotateX('+(-y*8)+'deg) translateZ(8px)';
+    });
+    c.addEventListener('mouseleave',()=>{c.style.transform='';});
+  });
+}
 
-/* ── FAQ ── */
+/* ── FAQ accordion ── */
 function toggleFaq(el){
   const item=el.closest('.faq-item');
   const isOpen=item.classList.contains('open');
@@ -1349,15 +1427,16 @@ function toggleFaq(el){
   if(!isOpen)item.classList.add('open');
 }
 
-/* ── GALLERY FILTER ── */
+/* ── Gallery filter ── */
 function filterGal(btn,cat){
   document.querySelectorAll('.gal-filter').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
 }
 
-/* ── FORM ── */
+/* ── Form submit ── */
 function submitForm(btn){
-  btn.textContent='Message Sent ✓';btn.style.background='#2a6a2a';
+  btn.textContent='Message Sent ✓';
+  btn.style.background='#2a6a2a';
   setTimeout(()=>{btn.textContent='Send Message';btn.style.background='';},3000);
 }
 </script>
