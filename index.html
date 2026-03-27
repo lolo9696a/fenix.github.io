@@ -5,377 +5,288 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fenix — Professional Live Dealer Studio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Josefin+Sans:wght@200;300;400;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --gold:#c9a84c;--gold-l:#e8c97a;--gold-d:#7a6030;
-  --crimson:#a8192e;--crimson-l:#d42040;
-  --bg:#04040a;--bg2:#08080f;--bg3:#0d0d18;--bg4:rgba(13,13,24,0.8);
-  --white:#f0ebe0;--dim:#6a6458;--dim2:#9a8e80;
-  --bor:rgba(201,168,76,0.18);--bor2:rgba(255,255,255,0.06);
-  --r:8px;
+  /* GOLD-SILVER-BLACK PALETTE */
+  --gold:#d4a84b;
+  --gold-l:#f0cc78;
+  --gold-d:#9a7530;
+  --gold-pale:rgba(212,168,75,0.08);
+  --silver:#c0c0c8;
+  --silver-l:#e8e8f0;
+  --silver-d:#808090;
+  --silver-dim:rgba(192,192,200,0.25);
+  --black:#000000;
+  --bg:#050507;
+  --bg2:#090910;
+  --bg3:#0e0e18;
+  --bg4:rgba(5,5,7,0.95);
+  --white:#f5f2ee;
+  --dim:#5a5870;
+  --dim2:#8a88a0;
+  --bor:rgba(212,168,75,0.22);
+  --bor-s:rgba(192,192,200,0.15);
+  --r:4px;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html{overflow-x:hidden;scroll-behavior:smooth;}
-body{background:var(--bg);color:var(--white);font-family:'DM Sans',sans-serif;overflow-x:hidden;}
+body{background:var(--bg);color:var(--white);font-family:'Josefin Sans',sans-serif;overflow-x:hidden;}
 
 /* PAGE SYSTEM */
 .page{display:none;width:100%;min-height:100vh;}
 .page.active{display:block;}
 
-/* CURSOR — purely decorative, never blocks interaction */
-.cur{position:fixed;width:10px;height:10px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s;opacity:0;mix-blend-mode:difference;}
-.cur-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(201,168,76,0.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s;opacity:0;}
+/* CUSTOM CURSOR */
+.cur{position:fixed;width:8px;height:8px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s,background .2s;opacity:0;mix-blend-mode:normal;}
+.cur-ring{position:fixed;width:32px;height:32px;border:1px solid rgba(212,168,75,0.6);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .25s,height .25s,border-color .25s;opacity:0;}
 @media(hover:hover) and (pointer:fine){.cur,.cur-ring{opacity:1;}}
 
 /* SCROLLBAR */
 ::-webkit-scrollbar{width:2px;}
-::-webkit-scrollbar-track{background:var(--bg);}
-::-webkit-scrollbar-thumb{background:var(--gold-d);}
+::-webkit-scrollbar-track{background:var(--black);}
+::-webkit-scrollbar-thumb{background:linear-gradient(to bottom,var(--gold),var(--silver-d));}
 
 /* HAMBURGER */
 .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;z-index:1100;background:none;border:none;padding:4px;}
-.hamburger span{display:block;width:24px;height:1.5px;background:var(--gold);transition:all .3s;}
-.hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+.hamburger span{display:block;width:24px;height:1px;background:var(--gold);transition:all .3s;}
+.hamburger.open span:nth-child(1){transform:translateY(6px) rotate(45deg);}
 .hamburger.open span:nth-child(2){opacity:0;}
-.hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+.hamburger.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
 
 /* MOBILE MENU */
-.mobile-menu{
-  position:fixed;inset:0;background:rgba(4,4,10,0.98);
-  backdrop-filter:blur(20px);z-index:1050;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:32px;
-  opacity:0;pointer-events:none;transition:opacity .4s;
-}
+.mobile-menu{position:fixed;inset:0;background:rgba(0,0,0,0.98);backdrop-filter:blur(24px);z-index:1050;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:36px;opacity:0;pointer-events:none;transition:opacity .4s;}
 .mobile-menu.open{opacity:1;pointer-events:all;}
-.mobile-menu a{font-family:'Playfair Display',serif;font-size:32px;color:var(--dim2);text-decoration:none;transition:color .3s;letter-spacing:2px;}
+.mobile-menu a{font-family:'Cormorant Garamond',serif;font-size:36px;color:var(--silver-d);text-decoration:none;transition:color .3s;letter-spacing:4px;}
 .mobile-menu a:hover{color:var(--gold);}
 
-/* NAV */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:1000;
-  padding:20px 64px;
-  display:flex;align-items:center;justify-content:space-between;
-  transition:all .4s;
-}
-nav.scrolled{background:rgba(4,4,10,0.96);border-bottom:1px solid var(--bor);padding:14px 64px;}
-.nav-logo{
-  font-family:'Space Mono',monospace;font-size:20px;letter-spacing:8px;
-  color:var(--gold);text-decoration:none;display:flex;flex-direction:column;
-}
-.nav-logo-sub{font-size:7px;letter-spacing:5px;color:var(--dim);margin-top:2px;font-family:'DM Sans',sans-serif;}
-.nav-links{display:flex;gap:36px;list-style:none;}
-.nav-links a{
-  color:var(--dim2);text-decoration:none;font-size:12px;
-  letter-spacing:3px;text-transform:uppercase;transition:color .3s;cursor:pointer;
-  position:relative;
-}
-.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:1px;background:var(--gold);transform:scaleX(0);transition:transform .3s;transform-origin:right;}
+/* ══ NAV ══ */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:22px 72px;display:flex;align-items:center;justify-content:space-between;transition:all .4s;}
+nav.scrolled{background:rgba(0,0,0,0.97);border-bottom:1px solid var(--bor);padding:14px 72px;backdrop-filter:blur(20px);}
+.nav-logo{font-family:'Space Mono',monospace;font-size:18px;letter-spacing:10px;color:var(--gold);text-decoration:none;display:flex;flex-direction:column;position:relative;}
+.nav-logo::after{content:'';position:absolute;bottom:-4px;left:0;width:100%;height:1px;background:linear-gradient(to right,var(--gold),transparent);}
+.nav-logo-sub{font-size:6px;letter-spacing:6px;color:var(--silver-d);margin-top:4px;font-family:'Josefin Sans',sans-serif;font-weight:200;}
+.nav-links{display:flex;gap:40px;list-style:none;}
+.nav-links a{color:var(--silver-d);text-decoration:none;font-size:11px;letter-spacing:4px;text-transform:uppercase;font-weight:300;transition:color .3s;cursor:pointer;position:relative;}
+.nav-links a::after{content:'';position:absolute;bottom:-5px;left:0;right:0;height:1px;background:linear-gradient(to right,var(--gold),var(--silver));transform:scaleX(0);transition:transform .3s;transform-origin:left;}
 .nav-links a:hover{color:var(--gold);}
-.nav-links a:hover::after{transform:scaleX(1);transform-origin:left;}
-.nav-cta{
-  background:transparent;border:1px solid var(--gold);
-  color:var(--gold);padding:10px 28px;
-  font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;
-  cursor:pointer;transition:all .3s;text-decoration:none;
-}
-.nav-cta:hover{background:var(--gold);color:var(--bg);}
+.nav-links a:hover::after{transform:scaleX(1);}
+.nav-cta{background:transparent;border:1px solid var(--gold);color:var(--gold);padding:10px 28px;font-family:'Josefin Sans',sans-serif;font-size:10px;letter-spacing:4px;text-transform:uppercase;cursor:pointer;transition:all .3s;text-decoration:none;position:relative;overflow:hidden;}
+.nav-cta::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--gold),var(--gold-d));transform:scaleX(0);transition:transform .3s;transform-origin:left;z-index:-1;}
+.nav-cta:hover{color:var(--black);}
+.nav-cta:hover::before{transform:scaleX(1);}
 
-/* ── HOME ── */
+/* ══ HERO ══ */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;background:var(--black);}
+/* Gold/Silver geometric background */
+.hero-geo{position:absolute;inset:0;overflow:hidden;}
+.geo-line{position:absolute;background:linear-gradient(90deg,transparent,rgba(212,168,75,0.08),transparent);height:1px;}
+.geo-line:nth-child(1){top:25%;width:100%;}
+.geo-line:nth-child(2){top:50%;width:100%;}
+.geo-line:nth-child(3){top:75%;width:100%;}
+.geo-vline{position:absolute;width:1px;background:linear-gradient(180deg,transparent,rgba(192,192,200,0.06),transparent);height:100%;}
+.geo-vline:nth-child(4){left:20%;}
+.geo-vline:nth-child(5){left:50%;}
+.geo-vline:nth-child(6){right:20%;}
 
-/* HERO */
-.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
-.hero-bg{position:absolute;inset:0;}
-
-/* AI Scene SVG background */
-.hero-scene{position:absolute;inset:0;overflow:hidden;}
-
-/* Ambient orbs */
+/* Orbs */
 .orb{position:absolute;border-radius:50%;pointer-events:none;}
-.orb-a{width:700px;height:700px;top:-200px;right:-200px;
-  background:radial-gradient(circle at 40% 40%,rgba(168,25,46,0.12),transparent 65%);
-  animation:orb-float 22s ease-in-out infinite;}
-.orb-b{width:500px;height:500px;bottom:-100px;left:-100px;
-  background:radial-gradient(circle at 50% 50%,rgba(201,168,76,0.08),transparent 65%);
-  animation:orb-float 18s ease-in-out infinite reverse;animation-delay:-8s;}
-.orb-c{width:300px;height:300px;top:35%;left:25%;
-  background:radial-gradient(circle,rgba(201,168,76,0.04),transparent 70%);
-  animation:orb-float 14s ease-in-out infinite;animation-delay:-4s;}
-@keyframes orb-float{0%,100%{transform:translate(0,0);}33%{transform:translate(30px,-40px);}66%{transform:translate(-20px,20px);}}
+.orb-a{width:800px;height:800px;top:-300px;right:-250px;background:radial-gradient(circle at 40%,rgba(212,168,75,0.07),transparent 60%);animation:orb-float 28s ease-in-out infinite;}
+.orb-b{width:600px;height:600px;bottom:-200px;left:-150px;background:radial-gradient(circle,rgba(192,192,200,0.04),transparent 65%);animation:orb-float 22s ease-in-out infinite reverse;animation-delay:-10s;}
+@keyframes orb-float{0%,100%{transform:translate(0,0);}33%{transform:translate(40px,-50px);}66%{transform:translate(-30px,25px);}}
 
-/* 3D grid floor */
-.hero-grid{
-  position:absolute;bottom:0;left:0;right:0;height:55%;
-  background-image:linear-gradient(rgba(201,168,76,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.06) 1px,transparent 1px);
-  background-size:70px 70px;
-  transform:perspective(700px) rotateX(65deg);transform-origin:bottom center;
-}
-.hero-grid::after{content:'';position:absolute;bottom:0;left:0;right:0;height:50%;background:linear-gradient(to top,var(--bg),transparent);}
+/* 3D perspective grid */
+.hero-grid{position:absolute;bottom:0;left:0;right:0;height:50%;background-image:linear-gradient(rgba(212,168,75,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(192,192,200,0.04) 1px,transparent 1px);background-size:80px 80px;transform:perspective(600px) rotateX(68deg);transform-origin:bottom center;}
+.hero-grid::after{content:'';position:absolute;bottom:0;left:0;right:0;height:60%;background:linear-gradient(to top,var(--black),transparent);}
 
 /* Particles */
 .particles{position:absolute;inset:0;pointer-events:none;}
-.particle{position:absolute;width:1.5px;height:1.5px;background:var(--gold);border-radius:50%;animation:p-rise linear infinite;opacity:0;}
-@keyframes p-rise{0%{opacity:0;transform:translateY(0);}10%{opacity:.7;}90%{opacity:.1;}100%{opacity:0;transform:translateY(-100vh);}}
+.particle{position:absolute;border-radius:50%;animation:p-rise linear infinite;opacity:0;}
+.particle.gold-p{background:var(--gold);}
+.particle.silver-p{background:var(--silver);}
+@keyframes p-rise{0%{opacity:0;transform:translateY(0);}10%{opacity:.8;}90%{opacity:.1;}100%{opacity:0;transform:translateY(-100vh);}}
 
-/* AI image in hero */
-.hero-ai-image{
-  position:absolute;right:8%;top:50%;transform:translateY(-50%);
-  width:360px;height:460px;
-  border:1px solid var(--bor);
-  overflow:hidden;
-  background:var(--bg3);
-}
-.hero-ai-image::before{
-  content:'';position:absolute;inset:0;z-index:2;
-  background:linear-gradient(to right,var(--bg) 0%,transparent 30%),
-             linear-gradient(to top,var(--bg) 0%,transparent 30%);
-}
-.ai-img-inner{
-  width:100%;height:100%;
-  background:
-    radial-gradient(ellipse 70% 50% at 60% 40%,rgba(201,168,76,0.15),transparent 70%),
-    radial-gradient(ellipse 50% 60% at 30% 70%,rgba(168,25,46,0.1),transparent 70%),
-    linear-gradient(160deg,#0a0a15,#12101a,#0d0a12);
-  display:flex;align-items:center;justify-content:center;
-}
-/* SVG-based AI dealer illustration */
-.ai-dealer-svg{width:260px;height:340px;opacity:.85;}
-.ai-img-label{
-  position:absolute;bottom:16px;left:16px;z-index:3;
-  font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;
-}
-.ai-img-label span{display:block;font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:1px;color:var(--dim2);margin-top:4px;}
+/* Hero AI panel */
+.hero-panel{position:absolute;right:7%;top:50%;transform:translateY(-50%);width:380px;height:480px;border:1px solid var(--bor);overflow:hidden;background:var(--bg3);}
+.hero-panel::before{content:'';position:absolute;inset:0;z-index:2;background:linear-gradient(to right,var(--black) 0%,transparent 25%),linear-gradient(to top,var(--black) 0%,transparent 25%);}
+.hero-panel-img{width:100%;height:100%;object-fit:cover;opacity:0.75;display:block;}
+.hero-panel-svg{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#08080e,#12101c);}
+.panel-label{position:absolute;bottom:18px;left:18px;z-index:3;font-family:'Space Mono',monospace;font-size:8px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;}
+.panel-label span{display:block;font-family:'Josefin Sans',sans-serif;font-size:11px;letter-spacing:2px;color:var(--silver-d);margin-top:4px;font-weight:200;}
+/* Corner accents */
+.hero-panel::after{content:'';position:absolute;top:16px;right:16px;width:20px;height:20px;border-top:1px solid var(--gold);border-right:1px solid var(--gold);z-index:3;}
+.panel-corner-bl{position:absolute;bottom:16px;right:16px;width:20px;height:20px;border-bottom:1px solid var(--silver);border-right:1px solid var(--silver);z-index:3;}
 
-/* Second hero image - left side background strip */
-.hero-left-strip{
-  position:absolute;left:0;top:0;bottom:0;width:320px;
-  background:linear-gradient(180deg,transparent,rgba(201,168,76,0.02) 50%,transparent);
-  pointer-events:none;
-}
+.hero-content{position:relative;z-index:2;text-align:left;padding:0 72px;max-width:680px;}
+.hero-tag{display:inline-flex;align-items:center;gap:12px;border:1px solid var(--bor-s);padding:8px 20px;margin-bottom:48px;font-size:9px;letter-spacing:6px;color:var(--silver);text-transform:uppercase;font-weight:300;animation:fade-up 1s ease forwards;opacity:0;}
+.blink-dot{width:5px;height:5px;background:var(--gold);border-radius:50%;animation:blink 1.4s infinite;box-shadow:0 0 6px var(--gold);}
+@keyframes blink{0%,100%{opacity:1;box-shadow:0 0 6px var(--gold);}50%{opacity:.15;box-shadow:none;}}
+@keyframes fade-up{from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:translateY(0);}}
 
-.hero-content{
-  position:relative;z-index:2;text-align:left;
-  padding:0 64px;max-width:700px;
-  margin-left:0;
-}
-.hero-tag{
-  display:inline-flex;align-items:center;gap:10px;
-  border:1px solid var(--bor);padding:8px 20px;margin-bottom:44px;
-  font-size:10px;letter-spacing:5px;color:var(--gold);text-transform:uppercase;
-  animation:fade-up 1s ease forwards;opacity:0;
-}
-.blink-dot{width:6px;height:6px;background:var(--crimson-l);border-radius:50%;animation:blink 1.4s infinite;}
-@keyframes blink{0%,100%{opacity:1;}50%{opacity:.15;}}
-@keyframes fade-up{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
-
-.hero-title{
-  font-family:'Playfair Display',serif;
-  font-size:clamp(52px,7vw,100px);font-weight:700;line-height:.9;
-  letter-spacing:-2px;
-  animation:fade-up 1.2s ease forwards;opacity:0;animation-delay:.3s;
-}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(54px,7.5vw,108px);font-weight:300;line-height:.88;letter-spacing:-2px;animation:fade-up 1.2s ease forwards;opacity:0;animation-delay:.3s;}
 .hero-title .gold{color:var(--gold);}
-.hero-title .outline{-webkit-text-stroke:1px rgba(201,168,76,0.35);color:transparent;}
-.hero-sub{
-  font-size:14px;letter-spacing:2px;color:var(--dim2);
-  margin:28px 0 44px;line-height:2;max-width:500px;
-  animation:fade-up 1.2s ease forwards;opacity:0;animation-delay:.6s;
-}
-.hero-actions{
-  display:flex;gap:16px;flex-wrap:wrap;
-  animation:fade-up 1.2s ease forwards;opacity:0;animation-delay:.9s;
-}
-.btn-primary{
-  background:var(--gold);color:var(--bg);
-  padding:15px 44px;border:none;
-  font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;
-  cursor:pointer;transition:all .3s;text-decoration:none;display:inline-block;position:relative;overflow:hidden;font-weight:600;
-}
-.btn-primary::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.2),transparent);transform:translateX(-100%);transition:transform .4s;}
-.btn-primary:hover::after{transform:translateX(100%);}
-.btn-primary:hover{background:var(--gold-l);transform:translateY(-2px);box-shadow:0 16px 40px rgba(201,168,76,.2);}
-.btn-outline{
-  background:transparent;border:1px solid var(--bor);color:var(--white);
-  padding:15px 44px;font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;
-  cursor:pointer;transition:all .3s;text-decoration:none;display:inline-block;
-}
+.hero-title .silver{color:var(--silver);}
+.hero-title .outline{-webkit-text-stroke:1px rgba(212,168,75,0.4);color:transparent;}
+.hero-sub{font-size:12px;letter-spacing:3px;color:var(--silver-d);margin:30px 0 48px;line-height:2.2;max-width:480px;font-weight:200;animation:fade-up 1.2s ease forwards;opacity:0;animation-delay:.6s;}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;animation:fade-up 1.2s ease forwards;opacity:0;animation-delay:.9s;}
+
+/* Buttons */
+.btn-primary{background:linear-gradient(135deg,var(--gold),var(--gold-d));color:var(--black);padding:14px 44px;border:none;font-family:'Josefin Sans',sans-serif;font-size:10px;letter-spacing:5px;text-transform:uppercase;cursor:pointer;transition:all .3s;text-decoration:none;display:inline-block;position:relative;overflow:hidden;font-weight:600;}
+.btn-primary::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--gold-l),var(--gold));transform:translateX(-100%);transition:transform .4s;}
+.btn-primary:hover::after{transform:translateX(0);}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(212,168,75,.28),0 0 0 1px rgba(212,168,75,.3);}
+.btn-primary span{position:relative;z-index:1;}
+
+.btn-silver{background:linear-gradient(135deg,var(--silver-d),rgba(100,100,120,0.8));color:var(--white);padding:14px 44px;border:1px solid var(--silver-dim);font-family:'Josefin Sans',sans-serif;font-size:10px;letter-spacing:5px;text-transform:uppercase;cursor:pointer;transition:all .3s;text-decoration:none;display:inline-block;font-weight:300;}
+.btn-silver:hover{border-color:var(--silver);color:var(--silver-l);transform:translateY(-2px);}
+
+.btn-outline{background:transparent;border:1px solid var(--bor-s);color:var(--silver);padding:14px 44px;font-family:'Josefin Sans',sans-serif;font-size:10px;letter-spacing:5px;text-transform:uppercase;cursor:pointer;transition:all .3s;text-decoration:none;display:inline-block;font-weight:200;}
 .btn-outline:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px);}
 
-.scroll-hint{
-  position:absolute;bottom:36px;left:64px;
-  display:flex;align-items:center;gap:14px;
-  color:var(--dim);font-size:10px;letter-spacing:3px;text-transform:uppercase;
-  animation:fade-up 2s ease forwards;opacity:0;animation-delay:1.4s;
-}
-.scroll-line{width:50px;height:1px;background:linear-gradient(to right,var(--gold),transparent);animation:scroll-pulse 2s ease-in-out infinite;}
-@keyframes scroll-pulse{0%,100%{transform:scaleX(1);}50%{transform:scaleX(1.3);}}
+.scroll-hint{position:absolute;bottom:36px;left:72px;display:flex;align-items:center;gap:16px;color:var(--dim);font-size:9px;letter-spacing:5px;text-transform:uppercase;animation:fade-up 2s ease forwards;opacity:0;animation-delay:1.5s;font-weight:200;}
+.scroll-line{width:48px;height:1px;background:linear-gradient(to right,var(--gold),var(--silver),transparent);animation:scroll-pulse 2s ease-in-out infinite;}
+@keyframes scroll-pulse{0%,100%{transform:scaleX(1);}50%{transform:scaleX(1.4);}}
 
-/* STATS */
-.stats-strip{
-  background:var(--bg3);border-top:1px solid var(--bor);border-bottom:1px solid var(--bor);
-  padding:44px 64px;display:grid;grid-template-columns:repeat(4,1fr);
-}
-.stat-item{text-align:center;padding:0 20px;border-right:1px solid var(--bor2);}
+/* ══ STATS STRIP ══ */
+.stats-strip{background:var(--bg2);border-top:1px solid var(--bor);border-bottom:1px solid var(--bor-s);padding:48px 72px;display:grid;grid-template-columns:repeat(4,1fr);}
+.stat-item{text-align:center;padding:0 24px;border-right:1px solid rgba(192,192,200,0.08);}
 .stat-item:last-child{border-right:none;}
-.stat-num{font-family:'Playfair Display',serif;font-size:52px;font-weight:400;color:var(--gold);line-height:1;}
-.stat-label{font-size:10px;letter-spacing:3px;color:var(--dim);text-transform:uppercase;margin-top:8px;}
+.stat-num{font-family:'Cormorant Garamond',serif;font-size:58px;font-weight:300;background:linear-gradient(135deg,var(--gold-l),var(--silver));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;}
+.stat-label{font-size:9px;letter-spacing:5px;color:var(--silver-d);text-transform:uppercase;margin-top:10px;font-weight:200;}
 
 /* SECTION COMMON */
-.section{padding:120px 64px;}
-.section-label{
-  font-size:10px;letter-spacing:6px;color:var(--gold);text-transform:uppercase;margin-bottom:18px;
-  display:flex;align-items:center;gap:16px;
-}
-.section-label::before{content:'';width:32px;height:1px;background:var(--gold);}
-.section-title{font-family:'Playfair Display',serif;font-size:clamp(34px,4.5vw,66px);font-weight:700;line-height:1.05;}
+.section{padding:120px 72px;}
+.section-label{font-size:9px;letter-spacing:7px;color:var(--gold);text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:18px;font-weight:300;}
+.section-label::before{content:'';width:36px;height:1px;background:linear-gradient(to right,var(--gold),var(--silver));}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,5vw,70px);font-weight:300;line-height:1.05;letter-spacing:-1px;}
 .section-title .italic{font-style:italic;color:var(--gold);}
+.section-title .silver-ital{font-style:italic;color:var(--silver);}
 
-/* MARQUEE */
-.marquee-wrap{overflow:hidden;padding:28px 0;border-top:1px solid var(--bor2);border-bottom:1px solid var(--bor2);background:rgba(201,168,76,.015);}
-.marquee-track{display:flex;gap:80px;animation:marquee 30s linear infinite;white-space:nowrap;width:max-content;}
-.marquee-item{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:4px;color:var(--dim);text-transform:uppercase;display:flex;align-items:center;gap:28px;}
-.marquee-item::after{content:'◆';color:var(--gold);font-size:7px;}
+/* ══ MARQUEE ══ */
+.marquee-wrap{overflow:hidden;padding:24px 0;border-top:1px solid rgba(212,168,75,0.08);border-bottom:1px solid rgba(192,192,200,0.05);background:rgba(0,0,0,0.3);}
+.marquee-track{display:flex;gap:80px;animation:marquee 35s linear infinite;white-space:nowrap;width:max-content;}
+.marquee-item{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:5px;color:var(--dim);text-transform:uppercase;display:flex;align-items:center;gap:32px;}
+.marquee-item::after{content:'◆';color:var(--gold);font-size:7px;filter:drop-shadow(0 0 4px var(--gold));}
 @keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
 
-/* ABOUT INTRO HOME */
-.home-about{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;padding:120px 64px;}
-.about-visual{position:relative;height:480px;}
-.about-img-main{
-  position:absolute;inset:0;
-  background:
-    radial-gradient(ellipse 60% 70% at 50% 50%,rgba(168,25,46,0.08),transparent 70%),
-    linear-gradient(160deg,#0c0c18,#10101e);
-  border:1px solid var(--bor);
-  display:flex;align-items:center;justify-content:center;overflow:hidden;
-}
-.ring-anim{
-  width:260px;height:260px;border-radius:50%;
-  border:1px solid rgba(201,168,76,.25);
-  display:flex;align-items:center;justify-content:center;
-  animation:spin 30s linear infinite;
-  position:relative;
-}
-.ring-anim::before{content:'';position:absolute;width:6px;height:6px;background:var(--gold);border-radius:50%;top:-3px;left:50%;transform:translateX(-50%);}
-.ring-inner{
-  width:185px;height:185px;border-radius:50%;
-  border:1px dashed rgba(201,168,76,.15);
-  display:flex;align-items:center;justify-content:center;
-  animation:spin 20s linear infinite reverse;
-}
-.ring-core{text-align:center;}
-.ring-core-text{font-family:'Space Mono',monospace;font-size:13px;color:var(--gold);letter-spacing:4px;}
-.ring-core-sub{font-size:10px;color:var(--dim);letter-spacing:2px;margin-top:6px;}
-@keyframes spin{from{transform:rotate(0);}to{transform:rotate(360deg);}}
+/* ══ HOME ABOUT ══ */
+.home-about{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;padding:120px 72px;background:var(--bg2);}
+.about-visual{position:relative;height:500px;}
+.about-img-wrap{position:absolute;inset:0;border:1px solid var(--bor);overflow:hidden;}
+.about-img-wrap img{width:100%;height:100%;object-fit:cover;opacity:0.6;transition:opacity .5s,transform .5s;}
+.about-img-wrap:hover img{opacity:0.75;transform:scale(1.03);}
+.about-img-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,0,0,0.6),rgba(5,5,7,0.3));}
+/* Corner decorations */
+.corner{position:absolute;width:24px;height:24px;}
+.corner-tl{top:12px;left:12px;border-top:2px solid var(--gold);border-left:2px solid var(--gold);}
+.corner-tr{top:12px;right:12px;border-top:2px solid var(--silver);border-right:2px solid var(--silver);}
+.corner-bl{bottom:12px;left:12px;border-bottom:2px solid var(--silver);border-left:2px solid var(--silver);}
+.corner-br{bottom:12px;right:12px;border-bottom:2px solid var(--gold);border-right:2px solid var(--gold);}
 
-.float-card{
-  position:absolute;background:rgba(4,4,10,.92);backdrop-filter:blur(12px);
-  border:1px solid var(--bor);padding:18px 22px;
-}
-.float-card-1{top:-20px;right:-20px;}
-.float-card-2{bottom:-20px;left:-20px;}
-.float-num{font-family:'Playfair Display',serif;font-size:34px;color:var(--gold);font-weight:400;}
-.float-lbl{font-size:10px;color:var(--dim);letter-spacing:2px;margin-top:4px;}
+.float-card{position:absolute;background:rgba(0,0,0,0.92);backdrop-filter:blur(16px);border:1px solid var(--bor);padding:18px 24px;}
+.float-card-1{top:-22px;right:-22px;}
+.float-card-2{bottom:-22px;left:-22px;}
+.float-num{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:300;background:linear-gradient(135deg,var(--gold-l),var(--silver));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.float-lbl{font-size:9px;color:var(--silver-d);letter-spacing:3px;margin-top:4px;font-weight:200;}
 
-.divider{width:52px;height:1px;background:var(--gold);margin:28px 0;}
+.divider{width:56px;height:1px;background:linear-gradient(to right,var(--gold),var(--silver));margin:28px 0;}
 
-/* FEATURES GRID */
-.features-section{background:var(--bg2);padding:120px 64px;}
-.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:56px;}
-.feat-card{
-  background:var(--bg3);padding:48px 36px;
-  position:relative;overflow:hidden;transition:background .3s,transform .3s;cursor:none;
-}
-.feat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent);transform:scaleX(0);transition:transform .4s;}
+/* ══ IMAGE SHOWCASE SECTION ══ */
+.image-showcase{padding:80px 72px;background:var(--black);position:relative;overflow:hidden;}
+.image-showcase::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,var(--gold),var(--silver),transparent);}
+.showcase-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-top:56px;}
+.showcase-item{position:relative;overflow:hidden;aspect-ratio:4/3;}
+.showcase-item img{width:100%;height:100%;object-fit:cover;opacity:0.65;transition:opacity .5s,transform .6s;}
+.showcase-item:hover img{opacity:0.85;transform:scale(1.05);}
+.showcase-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.88),transparent 55%);display:flex;flex-direction:column;justify-content:flex-end;padding:20px;}
+.showcase-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;}
+.showcase-cat{font-size:9px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-top:6px;font-weight:200;}
+/* Metallic border effect on hover */
+.showcase-item::after{content:'';position:absolute;inset:0;border:1px solid transparent;transition:border-color .3s;}
+.showcase-item:hover::after{border-color:rgba(212,168,75,0.4);}
+
+/* ══ FEATURES GRID ══ */
+.features-section{background:var(--bg2);padding:120px 72px;}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:60px;}
+.feat-card{background:var(--bg3);padding:52px 40px;position:relative;overflow:hidden;transition:background .3s,transform .3s;cursor:default;}
+.feat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--gold),var(--silver),transparent);transform:scaleX(0);transition:transform .5s;}
 .feat-card:hover::before{transform:scaleX(1);}
-.feat-card:hover{background:#101018;transform:translateY(-3px);}
-.feat-icon{width:54px;height:54px;border:1px solid var(--bor);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:28px;transition:border-color .3s,background .3s;}
-.feat-card:hover .feat-icon{border-color:var(--gold);background:rgba(201,168,76,.06);}
-.feat-num{font-family:'Space Mono',monospace;font-size:10px;color:var(--gold-d);position:absolute;top:24px;right:24px;}
-.feat-title{font-family:'Playfair Display',serif;font-size:20px;margin-bottom:14px;}
-.feat-desc{font-size:13px;color:var(--dim2);line-height:1.85;}
+.feat-card:hover{background:#0c0c14;transform:translateY(-4px);}
+.feat-icon-wrap{width:56px;height:56px;border:1px solid var(--bor-s);display:flex;align-items:center;justify-content:center;margin-bottom:30px;transition:border-color .3s,background .3s;}
+.feat-card:hover .feat-icon-wrap{border-color:var(--gold);background:rgba(212,168,75,0.05);}
+.feat-num{font-family:'Space Mono',monospace;font-size:10px;color:var(--gold-d);position:absolute;top:24px;right:24px;letter-spacing:2px;}
+.feat-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;margin-bottom:16px;}
+.feat-desc{font-size:12px;color:var(--silver-d);line-height:2;font-weight:200;}
 
-/* MISSION */
-.mission{padding:100px 64px;background:var(--bg3);position:relative;overflow:hidden;text-align:center;}
-.mission::before{content:'"';position:absolute;top:-60px;left:40px;font-family:'Playfair Display',serif;font-size:360px;color:rgba(201,168,76,.025);line-height:1;pointer-events:none;}
-.mission-text{font-family:'Playfair Display',serif;font-size:clamp(22px,2.8vw,40px);font-weight:400;font-style:italic;line-height:1.6;max-width:760px;margin:0 auto;}
+/* ══ MISSION ══ */
+.mission{padding:110px 72px;background:var(--black);position:relative;overflow:hidden;text-align:center;}
+.mission-quote-mark{position:absolute;top:-40px;left:56px;font-family:'Cormorant Garamond',serif;font-size:400px;color:rgba(212,168,75,0.03);line-height:1;pointer-events:none;font-weight:300;}
+.mission-text{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,2.8vw,42px);font-weight:300;font-style:italic;line-height:1.65;max-width:780px;margin:0 auto;color:var(--silver);}
 .mission-text .gold{color:var(--gold);}
-.mission-attr{font-size:11px;letter-spacing:4px;color:var(--dim);text-transform:uppercase;margin-top:36px;}
+.mission-attr{font-size:10px;letter-spacing:5px;color:var(--dim);text-transform:uppercase;margin-top:36px;font-weight:200;}
 
-/* CTA */
-.cta-section{padding:120px 64px;text-align:center;border-top:1px solid var(--bor2);background:linear-gradient(135deg,rgba(168,25,46,.04),rgba(201,168,76,.02));}
-.cta-title{font-family:'Playfair Display',serif;font-size:clamp(38px,5vw,72px);font-weight:700;margin-bottom:16px;}
-.cta-sub{font-size:14px;color:var(--dim2);letter-spacing:2px;margin-bottom:48px;}
+/* ══ CTA ══ */
+.cta-section{padding:120px 72px;text-align:center;border-top:1px solid var(--bor-s);background:linear-gradient(135deg,rgba(212,168,75,0.03),rgba(192,192,200,0.01));}
+.cta-title{font-family:'Cormorant Garamond',serif;font-size:clamp(40px,5.5vw,78px);font-weight:300;margin-bottom:18px;}
+.cta-sub{font-size:12px;color:var(--silver-d);letter-spacing:3px;margin-bottom:52px;font-weight:200;}
 
-/* ── FAQ PAGE ── */
-.faq-hero{padding:160px 64px 80px;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(201,168,76,.04),transparent);}
-.faq-body{padding:0 64px 100px;}
-.faq-list{max-width:800px;margin:60px auto 0;}
-.faq-item{border-bottom:1px solid var(--bor2);overflow:hidden;}
-.faq-q{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:28px 0;cursor:none;
-  font-family:'Playfair Display',serif;font-size:20px;font-weight:400;
-  transition:color .3s;
-}
+/* ══ FAQ ══ */
+.faq-hero{padding:160px 72px 80px;background:radial-gradient(ellipse 50% 40% at 50% 0%,rgba(212,168,75,0.04),transparent);}
+.faq-body{padding:0 72px 100px;}
+.faq-list{max-width:820px;margin:60px auto 0;}
+.faq-item{border-bottom:1px solid rgba(192,192,200,0.08);}
+.faq-q{display:flex;align-items:center;justify-content:space-between;padding:28px 0;cursor:pointer;font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;transition:color .3s;}
 .faq-q:hover{color:var(--gold);}
-.faq-icon{
-  width:32px;height:32px;border:1px solid var(--bor);border-radius:50%;
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;
-  font-size:16px;color:var(--gold);transition:transform .3s,background .3s;
-}
-.faq-item.open .faq-icon{transform:rotate(45deg);background:rgba(201,168,76,.08);}
-.faq-a{
-  max-height:0;overflow:hidden;transition:max-height .4s ease,padding .4s ease;
-  font-size:14px;color:var(--dim2);line-height:1.9;
-}
-.faq-item.open .faq-a{max-height:300px;padding-bottom:24px;}
+.faq-icon{width:32px;height:32px;border:1px solid var(--bor-s);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--gold);transition:transform .3s,background .3s;font-size:14px;}
+.faq-item.open .faq-icon{transform:rotate(45deg);background:rgba(212,168,75,0.06);}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .4s ease;font-size:13px;color:var(--silver-d);line-height:1.9;font-weight:200;}
+.faq-item.open .faq-a{max-height:300px;padding-bottom:28px;}
 
-/* ── ABOUT PAGE ── */
-.about-hero{padding:160px 64px 80px;background:radial-gradient(ellipse 50% 45% at 65% 30%,rgba(201,168,76,.03),transparent);}
-.about-story{display:grid;grid-template-columns:220px 1fr;gap:80px;padding:80px 64px;}
+/* ══ ABOUT PAGE ══ */
+.about-hero{padding:160px 72px 80px;background:radial-gradient(ellipse 50% 45% at 65% 30%,rgba(212,168,75,0.03),transparent);}
+.about-story{display:grid;grid-template-columns:220px 1fr;gap:80px;padding:80px 72px;}
 .story-nav{position:sticky;top:110px;height:fit-content;}
-.story-nav-item{
-  padding:18px 0;border-bottom:1px solid var(--bor2);
-  font-size:11px;letter-spacing:3px;color:var(--dim);text-transform:uppercase;cursor:none;
-  transition:color .3s;display:flex;align-items:center;gap:14px;
-}
+.story-nav-item{padding:18px 0;border-bottom:1px solid rgba(192,192,200,0.07);font-size:10px;letter-spacing:4px;color:var(--dim);text-transform:uppercase;cursor:pointer;transition:color .3s;display:flex;align-items:center;gap:14px;font-weight:200;}
 .story-nav-item.active{color:var(--gold);}
 .story-nav-item::before{content:'';width:16px;height:1px;background:currentColor;flex-shrink:0;}
 .story-block{margin-bottom:72px;}
-.story-block h3{font-family:'Playfair Display',serif;font-size:32px;font-style:italic;color:var(--gold);margin-bottom:22px;}
-.story-block p{font-size:14px;color:var(--dim2);line-height:2;margin-bottom:20px;}
-.values-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;padding:0 64px 80px;}
-.val-card{background:var(--bg3);padding:44px 28px;text-align:center;}
-.val-icon{font-size:28px;margin-bottom:18px;width:72px;height:72px;margin:0 auto 18px;border:1px solid var(--bor);display:flex;align-items:center;justify-content:center;transition:background .3s;}
-.val-card:hover .val-icon{background:rgba(201,168,76,.06);}
-.val-title{font-family:'Playfair Display',serif;font-size:18px;margin-bottom:10px;}
-.val-desc{font-size:12px;color:var(--dim2);line-height:1.8;}
+.story-block h3{font-family:'Cormorant Garamond',serif;font-size:34px;font-style:italic;color:var(--gold);margin-bottom:22px;font-weight:300;}
+.story-block p{font-size:14px;color:var(--silver-d);line-height:2.1;margin-bottom:20px;font-weight:200;}
 
-/* ── SERVICES PAGE ── */
-.services-hero{padding:160px 64px 80px;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(168,25,46,.05),transparent);}
-.services-grid{padding:0 64px 80px;display:grid;grid-template-columns:1fr 1fr;gap:3px;}
-.svc-card{background:var(--bg3);padding:56px 48px;position:relative;overflow:hidden;transition:background .3s;cursor:none;}
-.svc-card::after{content:'';position:absolute;right:-80px;bottom:-80px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,.04),transparent 70%);transition:right .5s,bottom .5s;}
+/* VALUES */
+.values-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;padding:0 72px 80px;}
+.val-card{background:var(--bg3);padding:48px 30px;text-align:center;transition:background .3s;}
+.val-card:hover{background:#0c0c14;}
+.val-icon{width:72px;height:72px;margin:0 auto 20px;border:1px solid var(--bor-s);display:flex;align-items:center;justify-content:center;transition:border-color .3s,background .3s;}
+.val-card:hover .val-icon{border-color:var(--gold);background:rgba(212,168,75,0.05);}
+.val-title{font-family:'Cormorant Garamond',serif;font-size:20px;margin-bottom:12px;font-weight:400;}
+.val-desc{font-size:11px;color:var(--silver-d);line-height:1.9;font-weight:200;}
+
+/* ══ SERVICES ══ */
+.services-hero{padding:160px 72px 80px;background:radial-gradient(ellipse 55% 40% at 50% 0%,rgba(212,168,75,0.04),transparent);}
+.services-grid{padding:0 72px 80px;display:grid;grid-template-columns:1fr 1fr;gap:3px;}
+.svc-card{background:var(--bg3);padding:56px 50px;position:relative;overflow:hidden;transition:background .3s;cursor:default;}
+.svc-card::after{content:'';position:absolute;right:-80px;bottom:-80px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(212,168,75,0.04),transparent 70%);transition:right .5s,bottom .5s;}
 .svc-card:hover::after{right:-40px;bottom:-40px;}
-.svc-card:hover{background:#0f0f1a;}
-.svc-num{font-family:'Space Mono',monospace;font-size:10px;color:var(--gold-d);letter-spacing:3px;margin-bottom:28px;}
-.svc-title{font-family:'Playfair Display',serif;font-size:28px;margin-bottom:18px;}
-.svc-desc{font-size:13px;color:var(--dim2);line-height:1.9;margin-bottom:28px;}
+.svc-card:hover{background:#0c0c16;}
+.svc-num{font-family:'Space Mono',monospace;font-size:10px;color:var(--gold-d);letter-spacing:4px;margin-bottom:28px;}
+.svc-title{font-family:'Cormorant Garamond',serif;font-size:28px;margin-bottom:18px;font-weight:400;}
+.svc-desc{font-size:13px;color:var(--silver-d);line-height:2;margin-bottom:28px;font-weight:200;}
 .svc-tags{display:flex;flex-wrap:wrap;gap:8px;}
-.svc-tag{border:1px solid var(--bor2);padding:5px 14px;font-size:10px;letter-spacing:2px;color:var(--dim);text-transform:uppercase;transition:all .3s;}
-.svc-card:hover .svc-tag{border-color:var(--bor);color:var(--gold);}
-.svc-featured{grid-column:span 2;background:linear-gradient(140deg,#0d0d1a,#11101c);padding:72px 60px;display:grid;grid-template-columns:1fr auto;gap:60px;align-items:center;}
+.svc-tag{border:1px solid rgba(192,192,200,0.1);padding:5px 14px;font-size:9px;letter-spacing:3px;color:var(--dim);text-transform:uppercase;transition:all .3s;font-weight:200;}
+.svc-card:hover .svc-tag{border-color:rgba(212,168,75,0.25);color:var(--silver);}
+.svc-featured{grid-column:span 2;background:linear-gradient(140deg,#0a0a14,#12101e);padding:72px 64px;display:grid;grid-template-columns:1fr auto;gap:60px;align-items:center;border-top:2px solid linear-gradient(var(--gold),var(--silver));}
 .svc-feat-visual{width:220px;height:220px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
-.hex{width:100%;height:100%;clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);background:linear-gradient(140deg,rgba(201,168,76,.12),rgba(168,25,46,.08));display:flex;align-items:center;justify-content:center;animation:hex-pulse 4s ease-in-out infinite;}
-@keyframes hex-pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.04);}}
+.hex{width:100%;height:100%;clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);background:linear-gradient(140deg,rgba(212,168,75,0.14),rgba(192,192,200,0.06));display:flex;align-items:center;justify-content:center;animation:hex-pulse 4s ease-in-out infinite;}
+@keyframes hex-pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
 
-/* ── GALLERY PAGE ── */
-.gallery-hero{padding:160px 64px 60px;}
-.gallery-filters{padding:0 64px 36px;display:flex;gap:12px;flex-wrap:wrap;}
-.gal-filter{border:1px solid var(--bor2);padding:9px 22px;font-size:11px;letter-spacing:3px;color:var(--dim);text-transform:uppercase;cursor:none;background:transparent;transition:all .3s;}
-.gal-filter.active,.gal-filter:hover{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,.04);}
-.gallery-grid{padding:0 64px 80px;display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:190px;gap:4px;}
-.gal-item{overflow:hidden;cursor:none;position:relative;background:var(--bg3);transition:transform .3s;}
+/* ══ GALLERY ══ */
+.gallery-hero{padding:160px 72px 60px;}
+.gallery-filters{padding:0 72px 36px;display:flex;gap:10px;flex-wrap:wrap;}
+.gal-filter{border:1px solid rgba(192,192,200,0.1);padding:9px 24px;font-size:9px;letter-spacing:4px;color:var(--dim);text-transform:uppercase;cursor:pointer;background:transparent;transition:all .3s;font-weight:200;font-family:'Josefin Sans',sans-serif;}
+.gal-filter.active,.gal-filter:hover{border-color:var(--gold);color:var(--gold);background:rgba(212,168,75,0.04);}
+.gallery-grid{padding:0 72px 80px;display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:190px;gap:4px;}
+.gal-item{overflow:hidden;cursor:default;position:relative;background:var(--bg3);transition:transform .3s;}
 .gal-item:hover{z-index:2;transform:scale(1.02);}
 .gal-item:hover .gal-overlay{opacity:1;}
 .gal-item:nth-child(1){grid-column:span 5;grid-row:span 2;}
@@ -390,84 +301,90 @@ nav.scrolled{background:rgba(4,4,10,0.96);border-bottom:1px solid var(--bor);pad
 .gal-item:nth-child(10){grid-column:span 5;}
 .gal-item:nth-child(11){grid-column:span 4;}
 .gal-item:nth-child(12){grid-column:span 3;}
-.gal-ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;}
-.gal-ph-icon{font-size:clamp(28px,4vw,52px);opacity:.35;}
-.gal-ph-lbl{font-size:10px;letter-spacing:3px;color:var(--dim);text-transform:uppercase;}
-.gal-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(4,4,10,.92),transparent 55%);opacity:0;transition:opacity .3s;display:flex;flex-direction:column;justify-content:flex-end;padding:18px;}
-.gal-ov-title{font-family:'Playfair Display',serif;font-size:16px;}
-.gal-ov-cat{font-size:10px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-top:4px;}
-.gi-1{background:linear-gradient(135deg,#140808,#0e0818);}
-.gi-2{background:linear-gradient(135deg,#080e08,#0c1210);}
-.gi-3{background:linear-gradient(135deg,#0e060a,#160c0a);}
-.gi-4{background:linear-gradient(135deg,#060e10,#08081a);}
-.gi-5{background:linear-gradient(135deg,#100800,#180e00);}
-.gi-6{background:linear-gradient(135deg,#08000e,#0e0016);}
-.gi-7{background:linear-gradient(135deg,#0e0000,#160606);}
-.gi-8{background:linear-gradient(135deg,#000e0e,#00081a);}
-.gi-9{background:linear-gradient(135deg,#080800,#0e0e00);}
-.gi-10{background:linear-gradient(135deg,#08000e,#0e0016);}
-.gi-11{background:linear-gradient(135deg,#0e0806,#160e08);}
-.gi-12{background:linear-gradient(135deg,#060606,#0e0e16);}
+.gal-inner{width:100%;height:100%;position:relative;overflow:hidden;}
+.gal-inner img{width:100%;height:100%;object-fit:cover;opacity:0.6;transition:opacity .4s,transform .5s;}
+.gal-item:hover .gal-inner img{opacity:0.8;transform:scale(1.05);}
+.gal-svg-ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;}
+.gal-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.9),transparent 55%);opacity:0;transition:opacity .3s;display:flex;flex-direction:column;justify-content:flex-end;padding:18px;}
+.gal-ov-title{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:400;}
+.gal-ov-cat{font-size:9px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-top:6px;font-weight:200;}
 
-/* ── CONTACT PAGE ── */
-.contact-hero{padding:160px 64px 80px;background:radial-gradient(ellipse 45% 35% at 30% 50%,rgba(168,25,46,.04),transparent);}
-.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;padding:0 64px 80px;}
-.contact-info{padding:56px 56px 56px 0;border-right:1px solid var(--bor2);}
-.contact-item{margin-bottom:44px;padding-bottom:44px;border-bottom:1px solid var(--bor2);}
+/* Gallery gradients — gold/silver/black tones */
+.gi-1{background:linear-gradient(135deg,#0a0808,#181210);}
+.gi-2{background:linear-gradient(135deg,#080808,#141414);}
+.gi-3{background:linear-gradient(135deg,#0a0a0c,#181820);}
+.gi-4{background:linear-gradient(135deg,#080a08,#121810);}
+.gi-5{background:linear-gradient(135deg,#0e0a04,#1a1408);}
+.gi-6{background:linear-gradient(135deg,#080808,#160e00);}
+.gi-7{background:linear-gradient(135deg,#0a0808,#180a0a);}
+.gi-8{background:linear-gradient(135deg,#080808,#141416);}
+.gi-9{background:linear-gradient(135deg,#0a080c,#120a18);}
+.gi-10{background:linear-gradient(135deg,#0c0800,#181000);}
+.gi-11{background:linear-gradient(135deg,#080808,#141414);}
+.gi-12{background:linear-gradient(135deg,#0a0a0c,#16141c);}
+
+/* ══ CONTACT ══ */
+.contact-hero{padding:160px 72px 80px;background:radial-gradient(ellipse 45% 35% at 30% 50%,rgba(212,168,75,0.03),transparent);}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;padding:0 72px 80px;}
+.contact-info{padding:56px 56px 56px 0;border-right:1px solid rgba(192,192,200,0.07);}
+.contact-item{margin-bottom:44px;padding-bottom:44px;border-bottom:1px solid rgba(192,192,200,0.07);}
 .contact-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
-.ci-label{font-size:10px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:10px;}
-.ci-value{font-family:'Playfair Display',serif;font-size:20px;}
-.ci-sub{font-size:12px;color:var(--dim2);margin-top:6px;}
+.ci-label{font-size:9px;letter-spacing:5px;color:var(--gold);text-transform:uppercase;margin-bottom:10px;font-weight:200;}
+.ci-value{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;}
+.ci-sub{font-size:11px;color:var(--silver-d);margin-top:6px;font-weight:200;}
 .contact-form{padding:56px 0 56px 56px;}
 .form-group{margin-bottom:22px;}
-.form-label{display:block;font-size:10px;letter-spacing:3px;color:var(--dim);text-transform:uppercase;margin-bottom:8px;}
-.form-input,.form-select,.form-textarea{width:100%;background:var(--bg3);border:1px solid var(--bor2);color:var(--white);padding:14px 18px;font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border-color .3s;resize:none;appearance:none;}
+.form-label{display:block;font-size:9px;letter-spacing:4px;color:var(--dim);text-transform:uppercase;margin-bottom:8px;font-weight:200;}
+.form-input,.form-select,.form-textarea{width:100%;background:var(--bg3);border:1px solid rgba(192,192,200,0.1);color:var(--white);padding:14px 18px;font-family:'Josefin Sans',sans-serif;font-size:13px;font-weight:200;outline:none;transition:border-color .3s;resize:none;appearance:none;}
 .form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--gold);}
 .form-textarea{height:110px;}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
 
-/* FOOTER */
-footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 40px;}
+/* ══ FOOTER ══ */
+footer{background:var(--black);border-top:1px solid var(--bor);padding:80px 72px 44px;}
 .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:56px;margin-bottom:56px;}
-.footer-logo{font-family:'Space Mono',monospace;font-size:18px;letter-spacing:8px;color:var(--gold);margin-bottom:8px;}
-.footer-logo-sub{font-size:8px;letter-spacing:5px;color:var(--dim);margin-bottom:18px;}
-.footer-brand p{font-size:13px;color:var(--dim2);line-height:1.85;max-width:260px;}
-.footer-col h4{font-size:10px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:22px;}
+.footer-logo{font-family:'Space Mono',monospace;font-size:16px;letter-spacing:10px;color:var(--gold);margin-bottom:8px;}
+.footer-logo-sub{font-size:7px;letter-spacing:6px;color:var(--silver-d);margin-bottom:18px;font-weight:200;}
+.footer-brand p{font-size:12px;color:var(--silver-d);line-height:2;max-width:260px;font-weight:200;}
+.footer-col h4{font-size:9px;letter-spacing:5px;color:var(--gold);text-transform:uppercase;margin-bottom:22px;font-weight:200;}
 .footer-links{list-style:none;}
 .footer-links li{margin-bottom:10px;}
-.footer-links a{color:var(--dim2);text-decoration:none;font-size:13px;transition:color .3s;cursor:none;}
+.footer-links a{color:var(--silver-d);text-decoration:none;font-size:12px;transition:color .3s;cursor:pointer;font-weight:200;}
 .footer-links a:hover{color:var(--gold);}
-.footer-bottom{border-top:1px solid var(--bor2);padding-top:28px;display:flex;justify-content:space-between;align-items:center;}
-.footer-copy{font-size:11px;color:var(--dim);letter-spacing:2px;}
-.footer-social{display:flex;gap:12px;}
-.soc-btn{width:34px;height:34px;border:1px solid var(--bor2);display:flex;align-items:center;justify-content:center;color:var(--dim2);font-size:13px;cursor:none;transition:all .3s;text-decoration:none;}
-.soc-btn:hover{border-color:var(--gold);color:var(--gold);}
+.footer-bottom{border-top:1px solid rgba(192,192,200,0.07);padding-top:28px;display:flex;justify-content:space-between;align-items:center;}
+.footer-copy{font-size:10px;color:var(--dim);letter-spacing:3px;font-weight:200;}
+.footer-social{display:flex;gap:10px;}
+.soc-btn{width:36px;height:36px;border:1px solid rgba(192,192,200,0.1);display:flex;align-items:center;justify-content:center;color:var(--silver-d);cursor:pointer;transition:all .3s;text-decoration:none;}
+.soc-btn:hover{border-color:var(--gold);color:var(--gold);background:rgba(212,168,75,0.05);}
 
-/* REVEAL */
-.reveal{opacity:0;transform:translateY(36px);transition:opacity .8s ease,transform .8s ease;}
+/* ══ LIVE BADGE ══ */
+.live-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(212,168,75,0.06);border:1px solid rgba(212,168,75,0.3);padding:6px 16px;font-size:9px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;font-weight:200;}
+.live-dot{width:5px;height:5px;background:var(--gold);border-radius:50%;animation:blink 1s infinite;box-shadow:0 0 6px var(--gold);}
+
+/* ══ SOCIAL BTN ══ */
+.social-btn{width:40px;height:40px;border:1px solid rgba(192,192,200,0.1);display:flex;align-items:center;justify-content:center;color:var(--silver-d);cursor:pointer;transition:all .3s;text-decoration:none;}
+.social-btn:hover{border-color:var(--gold);color:var(--gold);}
+
+/* ══ REVEAL ══ */
+.reveal{opacity:0;transform:translateY(36px);transition:opacity .85s ease,transform .85s ease;}
 .reveal.visible{opacity:1;transform:translateY(0);}
-.reveal-l{opacity:0;transform:translateX(-36px);transition:opacity .8s ease,transform .8s ease;}
+.reveal-l{opacity:0;transform:translateX(-36px);transition:opacity .85s ease,transform .85s ease;}
 .reveal-l.visible{opacity:1;transform:translateX(0);}
-.reveal-r{opacity:0;transform:translateX(36px);transition:opacity .8s ease,transform .8s ease;}
+.reveal-r{opacity:0;transform:translateX(36px);transition:opacity .85s ease,transform .85s ease;}
 .reveal-r.visible{opacity:1;transform:translateX(0);}
 
 /* TILT */
 .tilt{transform-style:preserve-3d;transition:transform .12s ease;}
 
-/* LIVE BADGE */
-.live-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(168,25,46,.12);border:1px solid rgba(168,25,46,.35);padding:6px 16px;font-size:10px;letter-spacing:3px;color:#e05060;text-transform:uppercase;}
-.live-dot{width:6px;height:6px;background:#e05060;border-radius:50%;animation:blink 1s infinite;}
+/* ══ METALLIC SHINE SEPARATOR ══ */
+.metallic-sep{height:2px;background:linear-gradient(to right,transparent,var(--gold),var(--silver-l),var(--gold),transparent);margin:0;}
 
-/* SOCIAL BTN */
-.social-btn{width:40px;height:40px;border:1px solid var(--bor2);display:flex;align-items:center;justify-content:center;color:var(--dim2);font-size:15px;cursor:none;transition:all .3s;text-decoration:none;}
-.social-btn:hover{border-color:var(--gold);color:var(--gold);}
-
-/* RESPONSIVE */
+/* ══ RESPONSIVE ══ */
 @media(max-width:960px){
   nav{padding:18px 28px;}
   .nav-links,.nav-cta{display:none;}
   .hamburger{display:flex;}
-  .section,.features-section,.home-about,.stats-strip,.about-story,.services-hero,.gallery-hero,.contact-hero,.faq-body,.faq-hero,.about-hero,.mission,.cta-section{padding-left:28px;padding-right:28px;}
+  .section,.features-section,.home-about,.stats-strip,.about-story,.services-hero,.gallery-hero,.contact-hero,.faq-body,.faq-hero,.about-hero,.mission,.cta-section,.image-showcase{padding-left:28px;padding-right:28px;}
   .stats-strip{grid-template-columns:repeat(2,1fr);gap:30px;}
   .features-grid{grid-template-columns:1fr;}
   .services-grid,.contact-grid{grid-template-columns:1fr;}
@@ -478,17 +395,16 @@ footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 4
   .values-grid{grid-template-columns:repeat(2,1fr);padding:0 28px 60px;}
   .about-story{grid-template-columns:1fr;padding:60px 28px;}
   .home-about{grid-template-columns:1fr;padding:60px 28px;}
-  .hero-ai-image{display:none;}
+  .hero-panel{display:none;}
   .hero-content{padding:0 28px;text-align:center;margin:0 auto;}
   .hero-sub{margin-left:auto;margin-right:auto;}
   .hero-actions{justify-content:center;}
   .scroll-hint{left:50%;transform:translateX(-50%);}
-  .contact-info{border-right:none;border-bottom:1px solid var(--bor2);padding:40px 0;}
+  .contact-info{border-right:none;border-bottom:1px solid rgba(192,192,200,0.07);padding:40px 0;}
   .contact-form{padding:40px 0;}
-  .contact-grid{padding:0 28px 60px;}
-  .gallery-filters{padding:0 28px 32px;}
-  .services-grid{padding:0 28px 60px;}
+  .contact-grid,.gallery-filters,.services-grid{padding-left:28px;padding-right:28px;}
   .svc-featured{padding:48px 28px;}
+  .showcase-grid{grid-template-columns:1fr;}
 }
 </style>
 </head>
@@ -521,119 +437,138 @@ footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 4
     <li><a href="#" onclick="showPage('faq')">FAQ</a></li>
     <li><a href="#" onclick="showPage('contact')">Contact</a></li>
   </ul>
-  <a href="#" class="nav-cta" onclick="showPage('contact')">Book a Demo</a>
+  <a href="#" class="nav-cta" onclick="showPage('contact')"><span>Book a Demo</span></a>
   <button class="hamburger" id="hamburger" onclick="toggleMobile()">
     <span></span><span></span><span></span>
   </button>
 </nav>
 
-<!-- ════════════════════════════════ HOME ════════════════════════════════ -->
+<!-- ═══════════════════════ HOME ═══════════════════════ -->
 <div id="home" class="page active">
 
   <section class="hero">
-    <div class="hero-bg">
-      <div class="orb orb-a"></div>
-      <div class="orb orb-b"></div>
-      <div class="orb orb-c"></div>
+    <!-- Geometric BG -->
+    <div class="hero-geo">
+      <div class="geo-line"></div><div class="geo-line"></div><div class="geo-line"></div>
+      <div class="geo-vline"></div><div class="geo-vline"></div><div class="geo-vline"></div>
     </div>
+    <div class="orb orb-a"></div>
+    <div class="orb orb-b"></div>
     <div class="hero-grid"></div>
     <div class="particles" id="particles"></div>
 
-    <!-- AI-generated dealer illustration panel -->
-    <div class="hero-ai-image">
-      <div class="ai-img-inner">
-        <!-- SVG AI Dealer Illustration -->
-        <svg class="ai-dealer-svg" viewBox="0 0 260 340" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Background glow -->
-          <ellipse cx="130" cy="200" rx="90" ry="120" fill="url(#bgGlow)" opacity="0.4"/>
-          <!-- Table surface -->
-          <ellipse cx="130" cy="290" rx="110" ry="30" fill="url(#tableGrad)" opacity="0.6"/>
-          <ellipse cx="130" cy="290" rx="105" ry="25" stroke="#c9a84c" stroke-width="0.5" stroke-opacity="0.5" fill="none"/>
-          <!-- Body / suit -->
-          <path d="M80 210 Q80 170 130 165 Q180 170 180 210 L185 290 L75 290 Z" fill="url(#suitGrad)"/>
-          <!-- Jacket lapels -->
-          <path d="M130 180 L108 200 L120 250 L130 255 L140 250 L152 200 Z" fill="#1a1a2e"/>
-          <path d="M130 180 L113 195 L122 245" stroke="#c9a84c" stroke-width="0.5" stroke-opacity="0.6" fill="none"/>
-          <path d="M130 180 L147 195 L138 245" stroke="#c9a84c" stroke-width="0.5" stroke-opacity="0.6" fill="none"/>
-          <!-- Bow tie -->
-          <path d="M118 185 L130 191 L142 185 L130 182 Z" fill="#c9a84c" opacity="0.9"/>
-          <!-- Neck -->
-          <rect x="120" y="155" width="20" height="30" rx="4" fill="#d4a574"/>
-          <!-- Head -->
-          <ellipse cx="130" cy="135" rx="36" ry="40" fill="url(#headGrad)"/>
-          <!-- Hair -->
-          <path d="M94 118 Q100 95 130 92 Q160 95 166 118 Q158 105 130 102 Q102 105 94 118 Z" fill="#1a0808"/>
-          <!-- Face features -->
-          <!-- Eyes -->
-          <ellipse cx="115" cy="128" rx="5" ry="5.5" fill="white"/>
-          <ellipse cx="145" cy="128" rx="5" ry="5.5" fill="white"/>
-          <ellipse cx="116" cy="129" rx="3" ry="3.5" fill="#2a1010"/>
-          <ellipse cx="146" cy="129" rx="3" ry="3.5" fill="#2a1010"/>
-          <ellipse cx="117" cy="127" rx="1" ry="1" fill="white" opacity="0.8"/>
-          <ellipse cx="147" cy="127" rx="1" ry="1" fill="white" opacity="0.8"/>
-          <!-- Eyebrows -->
-          <path d="M109 120 Q115 116 122 119" stroke="#1a0808" stroke-width="2" stroke-linecap="round" fill="none"/>
-          <path d="M138 119 Q145 116 151 120" stroke="#1a0808" stroke-width="2" stroke-linecap="round" fill="none"/>
-          <!-- Nose -->
-          <path d="M128 132 Q126 140 129 142 Q131 143 133 142 Q136 140 132 132" stroke="#c4905a" stroke-width="1" fill="none" opacity="0.7"/>
-          <!-- Smile -->
-          <path d="M119 148 Q130 157 141 148" stroke="#c4905a" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-          <!-- Arms -->
-          <path d="M80 220 Q55 230 48 260" stroke="url(#suitGrad)" stroke-width="22" stroke-linecap="round" fill="none"/>
-          <path d="M180 220 Q205 230 212 260" stroke="url(#suitGrad)" stroke-width="22" stroke-linecap="round" fill="none"/>
-          <!-- Hands -->
-          <ellipse cx="46" cy="265" rx="12" ry="9" fill="#d4a574"/>
-          <ellipse cx="214" cy="265" rx="12" ry="9" fill="#d4a574"/>
-          <!-- Playing cards held in hands -->
-          <rect x="32" y="254" width="12" height="18" rx="2" fill="white" transform="rotate(-15 38 263)"/>
-          <rect x="35" y="252" width="12" height="18" rx="2" fill="white" transform="rotate(-5 41 261)"/>
-          <text x="34" y="262" font-size="6" fill="#a8192e" transform="rotate(-15 38 263)" font-family="serif">♥</text>
-          <text x="37" y="260" font-size="6" fill="#1a1a2e" transform="rotate(-5 41 261)" font-family="serif">♠</text>
-          <!-- Right hand cards -->
-          <rect x="208" y="252" width="12" height="18" rx="2" fill="white" transform="rotate(15 214 261)"/>
-          <rect x="205" y="254" width="12" height="18" rx="2" fill="white" transform="rotate(5 211 263)"/>
-          <text x="209" y="262" font-size="6" fill="#a8192e" transform="rotate(15 214 261)" font-family="serif">♦</text>
-          <text x="206" y="262" font-size="6" fill="#1a1a2e" transform="rotate(5 211 263)" font-family="serif">♣</text>
-          <!-- Chips on table -->
-          <ellipse cx="88" cy="287" rx="14" ry="5" fill="#c9a84c" opacity="0.7"/>
-          <rect x="74" y="282" width="28" height="5" rx="1" fill="#c9a84c" opacity="0.6"/>
-          <rect x="74" y="278" width="28" height="5" rx="1" fill="#e8c97a" opacity="0.5"/>
-          <ellipse cx="88" cy="278" rx="14" ry="5" fill="#c9a84c" opacity="0.8"/>
-          <!-- Chip stack 2 -->
-          <ellipse cx="172" cy="287" rx="14" ry="5" fill="#a8192e" opacity="0.7"/>
-          <rect x="158" y="282" width="28" height="5" rx="1" fill="#a8192e" opacity="0.6"/>
-          <rect x="158" y="278" width="28" height="5" rx="1" fill="#c0392b" opacity="0.5"/>
-          <ellipse cx="172" cy="278" rx="14" ry="5" fill="#a8192e" opacity="0.8"/>
-          <!-- Center card on table -->
-          <rect x="110" y="272" width="40" height="28" rx="3" fill="white" opacity="0.95"/>
-          <text x="125" y="290" font-size="14" fill="#a8192e" font-family="serif" text-anchor="middle">♥</text>
-          <text x="113" y="279" font-size="7" fill="#a8192e" font-family="serif">A</text>
-          <!-- Subtle shine on suit -->
-          <path d="M90 210 Q85 240 82 270" stroke="white" stroke-width="0.5" stroke-opacity="0.15" fill="none"/>
+    <!-- Panel — SVG Dealer Illustration -->
+    <div class="hero-panel">
+      <div class="hero-panel-svg">
+        <!-- DEALER SVG — full detail, no emoji -->
+        <svg viewBox="0 0 280 370" fill="none" xmlns="http://www.w3.org/2000/svg" width="260" height="340">
           <defs>
-            <radialGradient id="bgGlow" cx="50%" cy="50%">
-              <stop offset="0%" stop-color="#c9a84c" stop-opacity="0.3"/>
+            <radialGradient id="bg2" cx="50%" cy="50%">
+              <stop offset="0%" stop-color="#d4a84b" stop-opacity="0.18"/>
               <stop offset="100%" stop-color="transparent"/>
             </radialGradient>
-            <linearGradient id="suitGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#1e1e30"/>
-              <stop offset="100%" stop-color="#0d0d18"/>
+            <linearGradient id="suit2" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#181830"/>
+              <stop offset="100%" stop-color="#0a0a18"/>
             </linearGradient>
-            <linearGradient id="headGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#e0b080"/>
-              <stop offset="100%" stop-color="#c49060"/>
+            <linearGradient id="skin2" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#e8b888"/>
+              <stop offset="100%" stop-color="#c89060"/>
             </linearGradient>
-            <linearGradient id="tableGrad" x1="0" y1="0" x2="0" y2="1">
+            <linearGradient id="table2" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stop-color="#1a2a10"/>
-              <stop offset="100%" stop-color="#0a1808"/>
+              <stop offset="100%" stop-color="#0a1408"/>
+            </linearGradient>
+            <linearGradient id="goldBadge" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#f0cc78"/>
+              <stop offset="100%" stop-color="#d4a84b"/>
+            </linearGradient>
+            <linearGradient id="silverCard" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#e8e8f0"/>
+              <stop offset="100%" stop-color="#c0c0c8"/>
             </linearGradient>
           </defs>
+          <!-- BG glow -->
+          <ellipse cx="140" cy="210" rx="100" ry="130" fill="url(#bg2)" opacity="0.5"/>
+          <!-- Table -->
+          <ellipse cx="140" cy="315" rx="118" ry="32" fill="url(#table2)" opacity="0.75"/>
+          <ellipse cx="140" cy="315" rx="113" ry="27" stroke="#d4a84b" stroke-width="0.8" stroke-opacity="0.5" fill="none"/>
+          <!-- Table felt pattern -->
+          <ellipse cx="140" cy="315" rx="90" ry="20" stroke="#c0c0c8" stroke-width="0.3" stroke-opacity="0.2" stroke-dasharray="3 4" fill="none"/>
+          <!-- Body -->
+          <path d="M88 228 Q88 182 140 176 Q192 182 192 228 L198 316 L82 316 Z" fill="url(#suit2)"/>
+          <!-- White shirt -->
+          <path d="M140 196 L120 215 L130 275 L140 280 L150 275 L160 215 Z" fill="#f0f0f8" opacity="0.9"/>
+          <!-- Gold bow tie -->
+          <path d="M126 200 L140 207 L154 200 L140 196 Z" fill="url(#goldBadge)" opacity="0.95"/>
+          <!-- Gold lapel pin -->
+          <circle cx="128" cy="218" r="3" fill="url(#goldBadge)" opacity="0.8"/>
+          <!-- Lapels -->
+          <path d="M140 196 L116 214 L126 268" stroke="#c0c0c8" stroke-width="0.5" stroke-opacity="0.4" fill="none"/>
+          <path d="M140 196 L164 214 L154 268" stroke="#c0c0c8" stroke-width="0.5" stroke-opacity="0.4" fill="none"/>
+          <!-- Neck -->
+          <rect x="128" y="168" width="24" height="32" rx="5" fill="url(#skin2)"/>
+          <!-- Head -->
+          <ellipse cx="140" cy="148" rx="38" ry="42" fill="url(#skin2)"/>
+          <!-- Hair -->
+          <path d="M102 132 Q108 104 140 100 Q172 104 178 132 Q170 116 140 112 Q110 116 102 132 Z" fill="#1a0a08"/>
+          <!-- Eyes -->
+          <ellipse cx="124" cy="142" rx="5.5" ry="6" fill="white"/>
+          <ellipse cx="156" cy="142" rx="5.5" ry="6" fill="white"/>
+          <ellipse cx="125" cy="143" rx="3" ry="3.5" fill="#1a1030"/>
+          <ellipse cx="157" cy="143" rx="3" ry="3.5" fill="#1a1030"/>
+          <ellipse cx="126" cy="141" rx="1" ry="1" fill="white" opacity="0.9"/>
+          <ellipse cx="158" cy="141" rx="1" ry="1" fill="white" opacity="0.9"/>
+          <!-- Eyebrows — arched -->
+          <path d="M117 133 Q124 128 132 131" stroke="#1a0a08" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+          <path d="M148 131 Q156 128 163 133" stroke="#1a0a08" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+          <!-- Nose -->
+          <path d="M137 148 Q135 155 138 157 Q140 158 142 157 Q145 155 143 148" stroke="#c09060" stroke-width="1" fill="none" opacity="0.6"/>
+          <!-- Smile -->
+          <path d="M129 162 Q140 172 151 162" stroke="#c09060" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+          <!-- Ears -->
+          <ellipse cx="102" cy="150" rx="6" ry="9" fill="url(#skin2)"/>
+          <ellipse cx="178" cy="150" rx="6" ry="9" fill="url(#skin2)"/>
+          <!-- Gold earring (right ear) -->
+          <circle cx="178" cy="155" r="2.5" fill="url(#goldBadge)" opacity="0.9"/>
+          <!-- Arms -->
+          <path d="M88 240 Q62 252 54 284" stroke="url(#suit2)" stroke-width="24" stroke-linecap="round" fill="none"/>
+          <path d="M192 240 Q218 252 226 284" stroke="url(#suit2)" stroke-width="24" stroke-linecap="round" fill="none"/>
+          <!-- Hands -->
+          <ellipse cx="52" cy="290" rx="13" ry="10" fill="url(#skin2)"/>
+          <ellipse cx="228" cy="290" rx="13" ry="10" fill="url(#skin2)"/>
+          <!-- Cards left hand — 3 cards fanned -->
+          <rect x="34" y="274" width="14" height="20" rx="2" fill="url(#silverCard)" transform="rotate(-20 41 284)" opacity="0.95"/>
+          <rect x="38" y="272" width="14" height="20" rx="2" fill="white" transform="rotate(-8 45 282)" opacity="0.95"/>
+          <rect x="42" y="274" width="14" height="20" rx="2" fill="url(#silverCard)" transform="rotate(4 49 284)" opacity="0.9"/>
+          <!-- Card suit symbols left hand -->
+          <text x="38" y="282" font-size="7" fill="#d4a84b" transform="rotate(-8 45 282)" font-family="serif" text-anchor="middle">♦</text>
+          <text x="35" y="280" font-size="7" fill="#1a1a2e" transform="rotate(-20 41 284)" font-family="serif" text-anchor="middle">♠</text>
+          <!-- Cards right hand -->
+          <rect x="218" y="272" width="14" height="20" rx="2" fill="white" transform="rotate(8 225 282)" opacity="0.95"/>
+          <rect x="222" y="274" width="14" height="20" rx="2" fill="url(#silverCard)" transform="rotate(20 229 284)" opacity="0.9"/>
+          <text x="222" y="282" font-size="7" fill="#d4a84b" transform="rotate(8 225 282)" font-family="serif" text-anchor="middle">♥</text>
+          <!-- Gold chip stack left -->
+          <ellipse cx="96" cy="314" rx="15" ry="5.5" fill="url(#goldBadge)" opacity="0.8"/>
+          <rect x="81" y="308" width="30" height="6" rx="1" fill="#d4a84b" opacity="0.7"/>
+          <rect x="81" y="303" width="30" height="6" rx="1" fill="#f0cc78" opacity="0.55"/>
+          <ellipse cx="96" cy="303" rx="15" ry="5.5" fill="url(#goldBadge)" opacity="0.9"/>
+          <!-- Silver chip stack right -->
+          <ellipse cx="184" cy="314" rx="15" ry="5.5" fill="#c0c0c8" opacity="0.7"/>
+          <rect x="169" y="308" width="30" height="6" rx="1" fill="#c0c0c8" opacity="0.6"/>
+          <rect x="169" y="303" width="30" height="6" rx="1" fill="#e8e8f0" opacity="0.5"/>
+          <ellipse cx="184" cy="303" rx="15" ry="5.5" fill="#c0c0c8" opacity="0.8"/>
+          <!-- Center cards on table (two face-up) -->
+          <rect x="116" y="298" width="22" height="30" rx="3" fill="white" opacity="0.97" transform="rotate(-5 127 313)"/>
+          <rect x="128" y="296" width="22" height="30" rx="3" fill="url(#silverCard)" opacity="0.95" transform="rotate(5 139 311)"/>
+          <text x="127" y="315" font-size="12" fill="#d4a84b" font-family="serif" text-anchor="middle" transform="rotate(-5 127 313)">A</text>
+          <text x="139" y="313" font-size="12" fill="#1a1a2e" font-family="serif" text-anchor="middle" transform="rotate(5 139 311)">K</text>
+          <!-- Gold shimmer on suit lapels -->
+          <path d="M96 228 Q90 260 88 295" stroke="url(#goldBadge)" stroke-width="0.5" stroke-opacity="0.2" fill="none"/>
         </svg>
       </div>
-      <div class="ai-img-label">
-        AI-Powered Studio
-        <span>Fenix Live Dealer</span>
-      </div>
+      <div class="panel-corner-bl"></div>
+      <div class="panel-label">AI-Powered Studio<span>Fenix Live Dealer</span></div>
     </div>
 
     <div class="hero-content">
@@ -648,7 +583,7 @@ footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 4
       </h1>
       <p class="hero-sub">Professional live dealer studios · Real-time 4K streaming · World-class certified dealers</p>
       <div class="hero-actions">
-        <a href="#" class="btn-primary" onclick="showPage('services')">Explore Services</a>
+        <a href="#" class="btn-primary" onclick="showPage('services')"><span>Explore Services</span></a>
         <a href="#" class="btn-outline" onclick="showPage('contact')">Book a Demo</a>
       </div>
     </div>
@@ -659,22 +594,25 @@ footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 4
     </div>
   </section>
 
+  <!-- METALLIC SEPARATOR -->
+  <div class="metallic-sep"></div>
+
   <!-- STATS -->
   <div class="stats-strip">
     <div class="stat-item reveal">
-      <div class="stat-num" data-count="500">0</div>
+      <div class="stat-num" data-count="500">0+</div>
       <div class="stat-label">Operators Served</div>
     </div>
     <div class="stat-item reveal" style="transition-delay:.1s">
-      <div class="stat-num" data-count="48">0</div>
+      <div class="stat-num" data-count="48">0+</div>
       <div class="stat-label">Languages Supported</div>
     </div>
     <div class="stat-item reveal" style="transition-delay:.2s">
-      <div class="stat-num" data-count="99">0</div>
-      <div class="stat-label">Uptime Guarantee %</div>
+      <div class="stat-num" data-count="99">0%</div>
+      <div class="stat-label">Uptime Guarantee</div>
     </div>
     <div class="stat-item reveal" style="transition-delay:.3s">
-      <div class="stat-num" data-count="200">0</div>
+      <div class="stat-num" data-count="200">0+</div>
       <div class="stat-label">Expert Dealers</div>
     </div>
   </div>
@@ -702,15 +640,13 @@ footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 4
   <!-- ABOUT INTRO -->
   <div class="home-about">
     <div class="about-visual reveal-l">
-      <div class="about-img-main">
-        <div class="ring-anim">
-          <div class="ring-inner">
-            <div class="ring-core">
-              <div class="ring-core-text">FENIX</div>
-              <div class="ring-core-sub">LIVE STUDIO</div>
-            </div>
-          </div>
-        </div>
+      <div class="about-img-wrap">
+        <img src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=800&q=80&fit=crop" alt="Casino Studio" onerror="this.style.display='none'">
+        <div class="about-img-overlay"></div>
+        <div class="corner corner-tl"></div>
+        <div class="corner corner-tr"></div>
+        <div class="corner corner-bl"></div>
+        <div class="corner corner-br"></div>
       </div>
       <div class="float-card float-card-1">
         <div class="float-num">24/7</div>
@@ -725,62 +661,145 @@ footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 4
       <div class="section-label">Our Story</div>
       <h2 class="section-title">Where <span class="italic">Premium</span><br>Meets Live Gaming</h2>
       <div class="divider"></div>
-      <p style="font-size:14px;color:var(--dim2);line-height:2;margin-bottom:24px;">
+      <p style="font-size:13px;color:var(--silver-d);line-height:2.2;margin-bottom:24px;font-weight:200;">
         Fenix is the industry's premier live dealer studio management company. We design, build, and operate world-class live casino environments — delivering unforgettable player experiences for operators worldwide.
       </p>
-      <p style="font-size:14px;color:var(--dim2);line-height:2;margin-bottom:40px;">
+      <p style="font-size:13px;color:var(--silver-d);line-height:2.2;margin-bottom:40px;font-weight:200;">
         From custom table design to multilingual dealer recruitment, we provide the complete ecosystem for live casino success.
       </p>
-      <a href="#" class="btn-primary" onclick="showPage('about')">Discover Our Studio</a>
+      <a href="#" class="btn-primary" onclick="showPage('about')"><span>Discover Our Studio</span></a>
     </div>
   </div>
+
+  <!-- IMAGE SHOWCASE — Real Photos from Internet -->
+  <section class="image-showcase">
+    <div class="section-label">Studio Showcase</div>
+    <h2 class="section-title">The Fenix <span class="silver-ital">Experience</span></h2>
+    <div class="showcase-grid">
+      <div class="showcase-item">
+        <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?w=900&q=80&fit=crop" alt="Live Casino Studio" loading="lazy" onerror="this.parentElement.style.background='linear-gradient(135deg,#0a0a10,#181828)'">
+        <div class="showcase-overlay">
+          <div class="showcase-title">Live Broadcast Studio</div>
+          <div class="showcase-cat">Studios</div>
+        </div>
+      </div>
+      <div class="showcase-item">
+        <img src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=900&q=80&fit=crop" alt="Dealer Table" loading="lazy" onerror="this.parentElement.style.background='linear-gradient(135deg,#0a0a10,#181828)'">
+        <div class="showcase-overlay">
+          <div class="showcase-title">Premium Dealer Tables</div>
+          <div class="showcase-cat">Tables</div>
+        </div>
+      </div>
+      <div class="showcase-item">
+        <img src="https://images.unsplash.com/photo-1597589022928-bb4002c099ec?w=900&q=80&fit=crop" alt="Streaming Technology" loading="lazy" onerror="this.parentElement.style.background='linear-gradient(135deg,#0a0a10,#181828)'">
+        <div class="showcase-overlay">
+          <div class="showcase-title">4K Streaming Array</div>
+          <div class="showcase-cat">Technology</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- FEATURES -->
   <section class="features-section">
     <div class="section-label">What We Offer</div>
     <h2 class="section-title">Complete Live Casino<br><span class="italic">Studio Solutions</span></h2>
     <div class="features-grid">
+
+      <!-- SVG Icons — no emoji -->
       <div class="feat-card tilt reveal">
         <span class="feat-num">01</span>
-        <div class="feat-icon">🎰</div>
+        <div class="feat-icon-wrap">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+            <rect x="2" y="6" width="22" height="14" rx="2" stroke="#d4a84b" stroke-width="1.2"/>
+            <rect x="5" y="9" width="6" height="5" rx="1" fill="#d4a84b" opacity="0.5"/>
+            <rect x="5" y="9" width="6" height="5" rx="1" stroke="#d4a84b" stroke-width="0.8"/>
+            <rect x="15" y="9" width="6" height="5" rx="1" fill="#c0c0c8" opacity="0.3"/>
+            <rect x="15" y="9" width="6" height="5" rx="1" stroke="#c0c0c8" stroke-width="0.8"/>
+            <circle cx="13" cy="17" r="1.5" fill="#d4a84b" opacity="0.6"/>
+            <line x1="9" y1="22" x2="17" y2="22" stroke="#d4a84b" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+        </div>
         <h3 class="feat-title">Studio Management</h3>
         <p class="feat-desc">End-to-end live casino studio management. We handle operations, staffing, compliance, and day-to-day performance — flawlessly.</p>
       </div>
+
       <div class="feat-card tilt reveal" style="transition-delay:.1s">
         <span class="feat-num">02</span>
-        <div class="feat-icon">🎲</div>
+        <div class="feat-icon-wrap">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+            <rect x="5" y="5" width="8" height="11" rx="1.5" stroke="#d4a84b" stroke-width="1.2"/>
+            <rect x="13" y="10" width="8" height="11" rx="1.5" stroke="#c0c0c8" stroke-width="1.2"/>
+            <text x="7.5" y="13" font-size="5" fill="#d4a84b" font-family="serif">A</text>
+            <text x="15" y="18" font-size="5" fill="#c0c0c8" font-family="serif">K</text>
+          </svg>
+        </div>
         <h3 class="feat-title">Customised Tables</h3>
         <p class="feat-desc">Bespoke table design tailored to your brand — from classic Blackjack to exclusive game variants. Every surface tells your story.</p>
       </div>
+
       <div class="feat-card tilt reveal" style="transition-delay:.2s">
         <span class="feat-num">03</span>
-        <div class="feat-icon">📡</div>
+        <div class="feat-icon-wrap">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+            <circle cx="13" cy="13" r="8" stroke="#d4a84b" stroke-width="1.2"/>
+            <circle cx="13" cy="13" r="4" stroke="#c0c0c8" stroke-width="0.8"/>
+            <circle cx="13" cy="13" r="1.5" fill="#d4a84b"/>
+            <line x1="13" y1="2" x2="13" y2="5" stroke="#d4a84b" stroke-width="1.2"/>
+            <line x1="13" y1="21" x2="13" y2="24" stroke="#d4a84b" stroke-width="1.2"/>
+            <line x1="2" y1="13" x2="5" y2="13" stroke="#d4a84b" stroke-width="1.2"/>
+            <line x1="21" y1="13" x2="24" y2="13" stroke="#d4a84b" stroke-width="1.2"/>
+          </svg>
+        </div>
         <h3 class="feat-title">Live Streaming Software</h3>
         <p class="feat-desc">Proprietary 4K streaming with ultra-low latency, multi-CDN distribution, and seamless integration with all major casino platforms.</p>
       </div>
+
       <div class="feat-card tilt reveal" style="transition-delay:.3s">
         <span class="feat-num">04</span>
-        <div class="feat-icon">🧑‍💼</div>
+        <div class="feat-icon-wrap">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+            <circle cx="13" cy="9" r="4" stroke="#d4a84b" stroke-width="1.2"/>
+            <path d="M6 22 Q6 16 13 16 Q20 16 20 22" stroke="#c0c0c8" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+            <circle cx="13" cy="9" r="1.5" fill="#d4a84b" opacity="0.5"/>
+          </svg>
+        </div>
         <h3 class="feat-title">Professional Dealers</h3>
         <p class="feat-desc">Certified, trained, and charismatic live dealers on demand. Scale your table count instantly with our talent pool of 200+ professionals.</p>
       </div>
+
       <div class="feat-card tilt reveal" style="transition-delay:.4s">
         <span class="feat-num">05</span>
-        <div class="feat-icon">🌍</div>
+        <div class="feat-icon-wrap">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+            <circle cx="13" cy="13" r="9" stroke="#c0c0c8" stroke-width="1.2"/>
+            <ellipse cx="13" cy="13" rx="4" ry="9" stroke="#d4a84b" stroke-width="1.2"/>
+            <line x1="4" y1="10" x2="22" y2="10" stroke="#c0c0c8" stroke-width="0.8" stroke-opacity="0.5"/>
+            <line x1="4" y1="16" x2="22" y2="16" stroke="#c0c0c8" stroke-width="0.8" stroke-opacity="0.5"/>
+          </svg>
+        </div>
         <h3 class="feat-title">Multilingual Dealers</h3>
         <p class="feat-desc">Dealers fluent in 48+ languages — English to Mandarin, Arabic to Portuguese. Speak your players' language, everywhere.</p>
       </div>
+
       <div class="feat-card tilt reveal" style="transition-delay:.5s">
         <span class="feat-num">06</span>
-        <div class="feat-icon">✨</div>
+        <div class="feat-icon-wrap">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+            <polygon points="13,3 16,10 24,10 18,15 20,22 13,18 6,22 8,15 2,10 10,10" stroke="#d4a84b" stroke-width="1.2" fill="none"/>
+            <polygon points="13,7 15,11 19,11 16,14 17,18 13,16 9,18 10,14 7,11 11,11" fill="#d4a84b" opacity="0.18"/>
+          </svg>
+        </div>
         <h3 class="feat-title">Studio Design & Atmosphere</h3>
         <p class="feat-desc">Immersive studio environments that captivate. Custom lighting, set design, and atmospheric branding that elevates every session.</p>
       </div>
+
     </div>
   </section>
 
   <!-- MISSION -->
   <section class="mission">
+    <div class="mission-quote-mark">"</div>
     <p class="mission-text reveal">
       "We don't just run studios — we craft <span class="gold">live experiences</span> that make every player feel like they're sitting at the most exclusive table in the world."
     </p>
@@ -790,24 +809,23 @@ footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 4
   <!-- CTA -->
   <section class="cta-section">
     <div class="section-label" style="justify-content:center">Get Started</div>
-    <h2 class="cta-title reveal">Ready to Launch<br><span style="color:var(--gold);font-style:italic;">Your Live Studio?</span></h2>
+    <h2 class="cta-title reveal">Ready to Launch<br><span style="color:var(--gold);font-style:italic;font-family:'Cormorant Garamond',serif;">Your Live Studio?</span></h2>
     <p class="cta-sub reveal">Let's build something extraordinary together.</p>
     <div class="reveal">
-      <a href="#" class="btn-primary" onclick="showPage('contact')" style="margin-right:16px">Book a Demo</a>
-      <a href="#" class="btn-outline" onclick="showPage('services')">View Services</a>
+      <a href="#" class="btn-primary" onclick="showPage('contact')" style="margin-right:14px"><span>Book a Demo</span></a>
+      <a href="#" class="btn-silver" onclick="showPage('services')">View Services</a>
     </div>
   </section>
 
-  <!-- FOOTER -->
-</div>
+</div><!-- /home -->
 
-<!-- ════════════════════════════════ ABOUT ════════════════════════════════ -->
+<!-- ═══════════════════════ ABOUT ═══════════════════════ -->
 <div id="about" class="page">
   <section class="about-hero">
     <div class="section-label">About Fenix</div>
-    <h1 class="section-title reveal" style="max-width:680px;">The Studio<br>Behind the <span class="italic">World's Best</span><br>Live Casinos</h1>
+    <h1 class="section-title reveal" style="max-width:700px;">The Studio<br>Behind the <span class="italic">World's Best</span><br>Live Casinos</h1>
     <div class="divider reveal"></div>
-    <p class="reveal" style="font-size:15px;color:var(--dim2);max-width:580px;line-height:2;">Fenix was built with one vision: to be the definitive live dealer studio partner for the world's most ambitious casino operators.</p>
+    <p class="reveal" style="font-size:14px;color:var(--silver-d);max-width:600px;line-height:2.2;font-weight:200;">Fenix was built with one vision: to be the definitive live dealer studio partner for the world's most ambitious casino operators.</p>
   </section>
 
   <div class="about-story">
@@ -841,54 +859,79 @@ footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 4
   </div>
 
   <!-- VALUES -->
-  <div style="padding:0 64px;margin-bottom:20px;" class="reveal">
+  <div style="padding:0 72px;margin-bottom:20px;" class="reveal">
     <div class="section-label">Core Values</div>
     <h2 class="section-title">What Drives <span class="italic">Everything</span> We Do</h2>
   </div>
   <div class="values-grid">
     <div class="val-card reveal">
-      <div class="val-icon">🏆</div>
+      <div class="val-icon">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <path d="M14 3 L17 10 L25 10 L19 15 L21 22 L14 18 L7 22 L9 15 L3 10 L11 10 Z" stroke="#d4a84b" stroke-width="1.2" fill="none"/>
+          <path d="M14 7 L16 12 L21 12 L17 15 L18 20 L14 17 L10 20 L11 15 L7 12 L12 12 Z" fill="#d4a84b" opacity="0.15"/>
+        </svg>
+      </div>
       <h3 class="val-title">Excellence</h3>
       <p class="val-desc">We settle for nothing less than the highest quality in every studio, every dealer, every stream.</p>
     </div>
     <div class="val-card reveal" style="transition-delay:.1s">
-      <div class="val-icon">🤝</div>
+      <div class="val-icon">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <path d="M9 14 Q9 8 14 8 Q19 8 19 14" stroke="#c0c0c8" stroke-width="1.2" fill="none"/>
+          <path d="M9 14 Q9 20 14 20 Q19 20 19 14" stroke="#d4a84b" stroke-width="1.2" fill="none"/>
+          <circle cx="9" cy="14" r="2" fill="#c0c0c8" opacity="0.7"/>
+          <circle cx="19" cy="14" r="2" fill="#d4a84b" opacity="0.7"/>
+        </svg>
+      </div>
       <h3 class="val-title">Partnership</h3>
       <p class="val-desc">Your success is our success. We work as an extension of your team, not just a vendor.</p>
     </div>
     <div class="val-card reveal" style="transition-delay:.2s">
-      <div class="val-icon">🔥</div>
+      <div class="val-icon">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <polygon points="14,4 17,11 25,11 19,16 21,23 14,19 7,23 9,16 3,11 11,11" stroke="#d4a84b" stroke-width="1.2" fill="rgba(212,168,75,0.08)"/>
+          <line x1="14" y1="9" x2="14" y2="14" stroke="#d4a84b" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="14" cy="16" r="1" fill="#d4a84b"/>
+        </svg>
+      </div>
       <h3 class="val-title">Innovation</h3>
       <p class="val-desc">Constantly pushing the boundaries of live streaming technology and studio design.</p>
     </div>
     <div class="val-card reveal" style="transition-delay:.3s">
-      <div class="val-icon">🌐</div>
+      <div class="val-icon">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <circle cx="14" cy="14" r="9" stroke="#c0c0c8" stroke-width="1.2"/>
+          <ellipse cx="14" cy="14" rx="5" ry="9" stroke="#d4a84b" stroke-width="1"/>
+          <line x1="5" y1="11" x2="23" y2="11" stroke="#c0c0c8" stroke-width="0.8" stroke-opacity="0.5"/>
+          <line x1="5" y1="17" x2="23" y2="17" stroke="#c0c0c8" stroke-width="0.8" stroke-opacity="0.5"/>
+        </svg>
+      </div>
       <h3 class="val-title">Global Reach</h3>
       <p class="val-desc">Studio operations and dealer networks spanning every major regulated market worldwide.</p>
     </div>
   </div>
 
   <section class="cta-section">
-    <h2 class="cta-title reveal">Start Your <span style="color:var(--gold);font-style:italic;">Journey</span></h2>
+    <h2 class="cta-title reveal">Start Your <span style="color:var(--gold);font-style:italic;font-family:'Cormorant Garamond',serif;">Journey</span></h2>
     <p class="cta-sub reveal">Join 500+ operators who trust Fenix</p>
-    <div class="reveal"><a href="#" class="btn-primary" onclick="showPage('contact')">Get In Touch</a></div>
+    <div class="reveal"><a href="#" class="btn-primary" onclick="showPage('contact')"><span>Get In Touch</span></a></div>
   </section>
-</div>
+</div><!-- /about -->
 
-<!-- ════════════════════════════════ SERVICES ════════════════════════════════ -->
+<!-- ═══════════════════════ SERVICES ═══════════════════════ -->
 <div id="services" class="page">
   <section class="services-hero">
-    <h1 class="section-title reveal" style="max-width:800px;margin-bottom:20px;">Everything You Need to<br>Launch a <span class="italic">World-Class</span> Live Studio</h1>
-    <p class="reveal" style="font-size:14px;color:var(--dim2);max-width:580px;line-height:2;margin-top:24px;">From the first blueprint to the final broadcast, Fenix provides the complete live casino studio solution — under one roof.</p>
+    <h1 class="section-title reveal" style="max-width:820px;margin-bottom:20px;">Everything You Need to<br>Launch a <span class="italic">World-Class</span> Live Studio</h1>
+    <p class="reveal" style="font-size:13px;color:var(--silver-d);max-width:580px;line-height:2.2;margin-top:24px;font-weight:200;">From the first blueprint to the final broadcast, Fenix provides the complete live casino studio solution — under one roof.</p>
   </section>
 
   <div class="services-grid">
-    <!-- Featured -->
+    <!-- Featured Service -->
     <div class="svc-card svc-featured">
       <div>
         <div class="svc-num">FLAGSHIP SERVICE</div>
-        <h2 class="svc-title" style="font-size:38px;margin-bottom:20px;">Full Studio<br>Management Suite</h2>
-        <p class="svc-desc" style="font-size:14px;max-width:480px;">Complete operational management of your live dealer studio. We handle scheduling, performance monitoring, compliance, technical operations, and player analytics in real-time — 24/7.</p>
+        <h2 class="svc-title" style="font-size:40px;margin-bottom:20px;font-family:'Cormorant Garamond',serif;font-weight:300;">Full Studio<br>Management Suite</h2>
+        <p class="svc-desc" style="font-size:13px;max-width:480px;">Complete operational management of your live dealer studio. We handle scheduling, performance monitoring, compliance, technical operations, and player analytics in real-time — 24/7.</p>
         <div class="svc-tags">
           <span class="svc-tag">Real-time Monitoring</span>
           <span class="svc-tag">Dealer Scheduling</span>
@@ -896,14 +939,20 @@ footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 4
           <span class="svc-tag">Compliance Tools</span>
           <span class="svc-tag">24/7 Operations</span>
         </div>
-        <a href="#" class="btn-primary" style="margin-top:32px;display:inline-block" onclick="showPage('contact')">Get Started</a>
+        <a href="#" class="btn-primary" style="margin-top:36px;display:inline-block" onclick="showPage('contact')"><span>Get Started</span></a>
       </div>
       <div class="svc-feat-visual">
         <div class="hex">
-          <div style="text-align:center;">
-            <div style="font-size:44px">🎰</div>
-            <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:2px;margin-top:8px;">FENIX STUDIO</div>
-          </div>
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+            <circle cx="40" cy="40" r="28" stroke="#d4a84b" stroke-width="1" opacity="0.6"/>
+            <circle cx="40" cy="40" r="18" stroke="#c0c0c8" stroke-width="0.8" stroke-dasharray="3 4" opacity="0.5"/>
+            <circle cx="40" cy="40" r="8" fill="rgba(212,168,75,0.15)" stroke="#d4a84b" stroke-width="1"/>
+            <text x="40" y="44" font-size="10" fill="#d4a84b" font-family="serif" text-anchor="middle">F</text>
+            <line x1="40" y1="12" x2="40" y2="22" stroke="#d4a84b" stroke-width="1" opacity="0.7"/>
+            <line x1="40" y1="58" x2="40" y2="68" stroke="#d4a84b" stroke-width="1" opacity="0.7"/>
+            <line x1="12" y1="40" x2="22" y2="40" stroke="#c0c0c8" stroke-width="1" opacity="0.5"/>
+            <line x1="58" y1="40" x2="68" y2="40" stroke="#c0c0c8" stroke-width="1" opacity="0.5"/>
+          </svg>
         </div>
       </div>
     </div>
@@ -947,17 +996,17 @@ footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 4
   </div>
 
   <section class="cta-section">
-    <h2 class="cta-title reveal">Ready to <span style="color:var(--gold);font-style:italic;">Get Started?</span></h2>
+    <h2 class="cta-title reveal">Ready to <span style="color:var(--gold);font-style:italic;font-family:'Cormorant Garamond',serif;">Get Started?</span></h2>
     <p class="cta-sub reveal">Let's discuss your studio requirements.</p>
-    <div class="reveal"><a href="#" class="btn-primary" onclick="showPage('contact')">Book a Consultation</a></div>
+    <div class="reveal"><a href="#" class="btn-primary" onclick="showPage('contact')"><span>Book a Consultation</span></a></div>
   </section>
-</div>
+</div><!-- /services -->
 
-<!-- ════════════════════════════════ GALLERY ════════════════════════════════ -->
+<!-- ═══════════════════════ GALLERY ═══════════════════════ -->
 <div id="gallery" class="page">
   <section class="gallery-hero">
     <div class="section-label">Studio Gallery</div>
-    <h1 class="section-title reveal" style="max-width:620px;">Inside the World of<br><span class="italic">Fenix Studios</span></h1>
+    <h1 class="section-title reveal" style="max-width:640px;">Inside the World of<br><span class="italic">Fenix Studios</span></h1>
   </section>
 
   <div class="gallery-filters">
@@ -969,123 +1018,186 @@ footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 4
   </div>
 
   <div class="gallery-grid">
-    <div class="gal-item gi-1"><div class="gal-ph"><span class="gal-ph-icon">🎰</span><span class="gal-ph-lbl">Flagship Studio</span></div><div class="gal-overlay"><div class="gal-ov-title">Flagship Studio A</div><div class="gal-ov-cat">Studios</div></div></div>
-    <div class="gal-item gi-2"><div class="gal-ph"><span class="gal-ph-icon">🃏</span><span class="gal-ph-lbl">Blackjack Suite</span></div><div class="gal-overlay"><div class="gal-ov-title">Blackjack Suite</div><div class="gal-ov-cat">Tables</div></div></div>
-    <div class="gal-item gi-3"><div class="gal-ph"><span class="gal-ph-icon">🧑‍💼</span><span class="gal-ph-lbl">Dealer Team</span></div><div class="gal-overlay"><div class="gal-ov-title">Dealer Team</div><div class="gal-ov-cat">Dealers</div></div></div>
-    <div class="gal-item gi-4"><div class="gal-ph"><span class="gal-ph-icon">📡</span><span class="gal-ph-lbl">Streaming Array</span></div><div class="gal-overlay"><div class="gal-ov-title">Streaming Array</div><div class="gal-ov-cat">Technology</div></div></div>
-    <div class="gal-item gi-5"><div class="gal-ph"><span class="gal-ph-icon">✨</span><span class="gal-ph-lbl">Premium Baccarat</span></div><div class="gal-overlay"><div class="gal-ov-title">Premium Baccarat</div><div class="gal-ov-cat">Tables</div></div></div>
-    <div class="gal-item gi-6"><div class="gal-ph"><span class="gal-ph-icon">🎭</span><span class="gal-ph-lbl">Game Show Studio</span></div><div class="gal-overlay"><div class="gal-ov-title">Game Show Studio</div><div class="gal-ov-cat">Studios</div></div></div>
-    <div class="gal-item gi-7"><div class="gal-ph"><span class="gal-ph-icon">🏛️</span><span class="gal-ph-lbl">Grand Casino Set</span></div><div class="gal-overlay"><div class="gal-ov-title">Grand Casino Set</div><div class="gal-ov-cat">Studios</div></div></div>
-    <div class="gal-item gi-8"><div class="gal-ph"><span class="gal-ph-icon">💡</span><span class="gal-ph-lbl">Lighting Rig</span></div><div class="gal-overlay"><div class="gal-ov-title">Dynamic Lighting</div><div class="gal-ov-cat">Technology</div></div></div>
-    <div class="gal-item gi-9"><div class="gal-ph"><span class="gal-ph-icon">🌍</span><span class="gal-ph-lbl">Multilingual Table</span></div><div class="gal-overlay"><div class="gal-ov-title">Multi-Language Table</div><div class="gal-ov-cat">Dealers</div></div></div>
-    <div class="gal-item gi-10"><div class="gal-ph"><span class="gal-ph-icon">🎲</span><span class="gal-ph-lbl">Poker Suite</span></div><div class="gal-overlay"><div class="gal-ov-title">Private Poker Suite</div><div class="gal-ov-cat">Studios</div></div></div>
-    <div class="gal-item gi-11"><div class="gal-ph"><span class="gal-ph-icon">🔲</span><span class="gal-ph-lbl">Custom Table Felt</span></div><div class="gal-overlay"><div class="gal-ov-title">Custom Felt Design</div><div class="gal-ov-cat">Tables</div></div></div>
-    <div class="gal-item gi-12"><div class="gal-ph"><span class="gal-ph-icon">📹</span><span class="gal-ph-lbl">4K Camera Array</span></div><div class="gal-overlay"><div class="gal-ov-title">4K Camera Array</div><div class="gal-ov-cat">Technology</div></div></div>
+    <!-- Gallery items with SVG placeholder art + real images -->
+    <div class="gal-item gi-1">
+      <div class="gal-inner">
+        <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?w=800&q=75&fit=crop" alt="Flagship Studio" loading="lazy" onerror="this.style.display='none'">
+        <div class="gal-svg-ph" style="display:none">
+          <svg width="52" height="52" viewBox="0 0 52 52" fill="none"><rect x="4" y="12" width="44" height="28" rx="3" stroke="#d4a84b" stroke-width="1.2" opacity="0.4"/><rect x="10" y="18" width="14" height="10" rx="2" fill="#d4a84b" opacity="0.15" stroke="#d4a84b" stroke-width="0.8"/><rect x="28" y="18" width="14" height="10" rx="2" fill="#c0c0c8" opacity="0.1" stroke="#c0c0c8" stroke-width="0.8"/><circle cx="26" cy="36" r="2" fill="#d4a84b" opacity="0.4"/></svg>
+          <span style="font-size:9px;letter-spacing:3px;color:var(--dim);text-transform:uppercase;font-weight:200;">Flagship Studio</span>
+        </div>
+      </div>
+      <div class="gal-overlay"><div class="gal-ov-title">Flagship Studio A</div><div class="gal-ov-cat">Studios</div></div>
+    </div>
+
+    <div class="gal-item gi-2">
+      <div class="gal-inner">
+        <img src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=600&q=75&fit=crop" alt="Blackjack Suite" loading="lazy" onerror="this.style.display='none'">
+        <div class="gal-svg-ph">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none"><rect x="8" y="6" width="14" height="20" rx="2" stroke="#d4a84b" stroke-width="1.2" opacity="0.5"/><rect x="22" y="12" width="14" height="20" rx="2" stroke="#c0c0c8" stroke-width="1.2" opacity="0.4"/><text x="14" y="19" font-size="8" fill="#d4a84b" font-family="serif" text-anchor="middle" opacity="0.6">A</text><text x="29" y="25" font-size="8" fill="#c0c0c8" font-family="serif" text-anchor="middle" opacity="0.5">K</text></svg>
+          <span style="font-size:9px;letter-spacing:3px;color:var(--dim);text-transform:uppercase;font-weight:200;">Blackjack Suite</span>
+        </div>
+      </div>
+      <div class="gal-overlay"><div class="gal-ov-title">Blackjack Suite</div><div class="gal-ov-cat">Tables</div></div>
+    </div>
+
+    <div class="gal-item gi-3">
+      <div class="gal-inner">
+        <img src="https://images.unsplash.com/photo-1529528070227-579ea8d09e8e?w=600&q=75&fit=crop" alt="Dealer Team" loading="lazy" onerror="this.style.display='none'">
+        <div class="gal-svg-ph">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none"><circle cx="22" cy="16" r="7" stroke="#d4a84b" stroke-width="1.2" opacity="0.5"/><path d="M10 38 Q10 28 22 28 Q34 28 34 38" stroke="#c0c0c8" stroke-width="1.2" fill="none" opacity="0.5" stroke-linecap="round"/></svg>
+          <span style="font-size:9px;letter-spacing:3px;color:var(--dim);text-transform:uppercase;font-weight:200;">Dealer Team</span>
+        </div>
+      </div>
+      <div class="gal-overlay"><div class="gal-ov-title">Dealer Team</div><div class="gal-ov-cat">Dealers</div></div>
+    </div>
+
+    <div class="gal-item gi-4">
+      <div class="gal-inner">
+        <img src="https://images.unsplash.com/photo-1597589022928-bb4002c099ec?w=600&q=75&fit=crop" alt="Streaming Array" loading="lazy" onerror="this.style.display='none'">
+        <div class="gal-svg-ph">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none"><circle cx="22" cy="22" r="10" stroke="#d4a84b" stroke-width="1" opacity="0.5"/><circle cx="22" cy="22" r="5" stroke="#c0c0c8" stroke-width="0.8" opacity="0.4"/><circle cx="22" cy="22" r="2" fill="#d4a84b" opacity="0.6"/><line x1="22" y1="4" x2="22" y2="12" stroke="#d4a84b" stroke-width="1" opacity="0.4"/></svg>
+          <span style="font-size:9px;letter-spacing:3px;color:var(--dim);text-transform:uppercase;font-weight:200;">Streaming Array</span>
+        </div>
+      </div>
+      <div class="gal-overlay"><div class="gal-ov-title">Streaming Array</div><div class="gal-ov-cat">Technology</div></div>
+    </div>
+
+    <div class="gal-item gi-5">
+      <div class="gal-inner">
+        <img src="https://images.unsplash.com/photo-1616710566921-01c6a29db7b1?w=500&q=75&fit=crop" alt="Premium Baccarat" loading="lazy" onerror="this.style.display='none'">
+        <div class="gal-svg-ph">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none"><ellipse cx="22" cy="30" rx="16" ry="8" stroke="#d4a84b" stroke-width="1" opacity="0.4"/><rect x="12" y="12" width="20" height="18" rx="2" stroke="#c0c0c8" stroke-width="1" opacity="0.4"/><text x="22" y="24" font-size="9" fill="#d4a84b" font-family="serif" text-anchor="middle" opacity="0.6">B</text></svg>
+          <span style="font-size:9px;letter-spacing:3px;color:var(--dim);text-transform:uppercase;font-weight:200;">Premium Baccarat</span>
+        </div>
+      </div>
+      <div class="gal-overlay"><div class="gal-ov-title">Premium Baccarat</div><div class="gal-ov-cat">Tables</div></div>
+    </div>
+
+    <div class="gal-item gi-6">
+      <div class="gal-inner">
+        <img src="https://images.unsplash.com/photo-1598214886806-c04c51bb13a1?w=600&q=75&fit=crop" alt="Game Show Studio" loading="lazy" onerror="this.style.display='none'">
+        <div class="gal-svg-ph">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none"><polygon points="22,6 28,18 42,18 32,27 36,40 22,32 8,40 12,27 2,18 16,18" stroke="#d4a84b" stroke-width="1" fill="none" opacity="0.5"/></svg>
+          <span style="font-size:9px;letter-spacing:3px;color:var(--dim);text-transform:uppercase;font-weight:200;">Game Show Studio</span>
+        </div>
+      </div>
+      <div class="gal-overlay"><div class="gal-ov-title">Game Show Studio</div><div class="gal-ov-cat">Studios</div></div>
+    </div>
+
+    <div class="gal-item gi-7">
+      <div class="gal-inner">
+        <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?w=700&q=75&fit=crop&crop=right" alt="Grand Casino Set" loading="lazy" onerror="this.style.display='none'">
+      </div>
+      <div class="gal-overlay"><div class="gal-ov-title">Grand Casino Set</div><div class="gal-ov-cat">Studios</div></div>
+    </div>
+
+    <div class="gal-item gi-8">
+      <div class="gal-inner">
+        <img src="https://images.unsplash.com/photo-1494412651409-8963ce7935a7?w=500&q=75&fit=crop" alt="Dynamic Lighting" loading="lazy" onerror="this.style.display='none'">
+        <div class="gal-svg-ph">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none"><circle cx="22" cy="20" r="8" stroke="#d4a84b" stroke-width="1.2" opacity="0.6"/><line x1="22" y1="4" x2="22" y2="10" stroke="#d4a84b" stroke-width="1.2" opacity="0.5"/><line x1="22" y1="30" x2="22" y2="40" stroke="#c0c0c8" stroke-width="1" opacity="0.4"/><line x1="6" y1="20" x2="14" y2="20" stroke="#d4a84b" stroke-width="1" opacity="0.5"/><line x1="30" y1="20" x2="38" y2="20" stroke="#d4a84b" stroke-width="1" opacity="0.5"/></svg>
+          <span style="font-size:9px;letter-spacing:3px;color:var(--dim);text-transform:uppercase;font-weight:200;">Dynamic Lighting</span>
+        </div>
+      </div>
+      <div class="gal-overlay"><div class="gal-ov-title">Dynamic Lighting</div><div class="gal-ov-cat">Technology</div></div>
+    </div>
+
+    <div class="gal-item gi-9">
+      <div class="gal-inner">
+        <img src="https://images.unsplash.com/photo-1529528070227-579ea8d09e8e?w=500&q=75&fit=crop&crop=left" alt="Multi-Language Table" loading="lazy" onerror="this.style.display='none'">
+      </div>
+      <div class="gal-overlay"><div class="gal-ov-title">Multi-Language Table</div><div class="gal-ov-cat">Dealers</div></div>
+    </div>
+
+    <div class="gal-item gi-10">
+      <div class="gal-inner">
+        <img src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=700&q=75&fit=crop&crop=bottom" alt="Private Poker Suite" loading="lazy" onerror="this.style.display='none'">
+      </div>
+      <div class="gal-overlay"><div class="gal-ov-title">Private Poker Suite</div><div class="gal-ov-cat">Studios</div></div>
+    </div>
+
+    <div class="gal-item gi-11">
+      <div class="gal-inner">
+        <img src="https://images.unsplash.com/photo-1616710566921-01c6a29db7b1?w=600&q=75&fit=crop&crop=top" alt="Custom Felt Design" loading="lazy" onerror="this.style.display='none'">
+      </div>
+      <div class="gal-overlay"><div class="gal-ov-title">Custom Felt Design</div><div class="gal-ov-cat">Tables</div></div>
+    </div>
+
+    <div class="gal-item gi-12">
+      <div class="gal-inner">
+        <img src="https://images.unsplash.com/photo-1597589022928-bb4002c099ec?w=500&q=75&fit=crop&crop=right" alt="4K Camera Array" loading="lazy" onerror="this.style.display='none'">
+      </div>
+      <div class="gal-overlay"><div class="gal-ov-title">4K Camera Array</div><div class="gal-ov-cat">Technology</div></div>
+    </div>
   </div>
 
   <section class="cta-section">
-    <h2 class="cta-title reveal">Want to See More?<br><span style="color:var(--gold);font-style:italic;">Book a Studio Tour</span></h2>
+    <h2 class="cta-title reveal">Want to See More?<br><span style="color:var(--gold);font-style:italic;font-family:'Cormorant Garamond',serif;">Book a Studio Tour</span></h2>
     <p class="cta-sub reveal">Experience Fenix quality firsthand — virtually or in person.</p>
-    <div class="reveal"><a href="#" class="btn-primary" onclick="showPage('contact')">Request a Tour</a></div>
+    <div class="reveal"><a href="#" class="btn-primary" onclick="showPage('contact')"><span>Request a Tour</span></a></div>
   </section>
-</div>
+</div><!-- /gallery -->
 
-<!-- ════════════════════════════════ FAQ ════════════════════════════════ -->
+<!-- ═══════════════════════ FAQ ═══════════════════════ -->
 <div id="faq" class="page">
   <section class="faq-hero">
     <div class="section-label">FAQ</div>
-    <h1 class="section-title reveal" style="max-width:620px;">Frequently Asked<br><span class="italic">Questions</span></h1>
+    <h1 class="section-title reveal" style="max-width:640px;">Frequently Asked<br><span class="italic">Questions</span></h1>
     <div class="divider reveal"></div>
-    <p class="reveal" style="font-size:14px;color:var(--dim2);max-width:540px;line-height:2;margin-top:20px;">Everything you need to know about working with Fenix. Can't find the answer? <a href="#" onclick="showPage('contact')" style="color:var(--gold);text-decoration:none;">Contact us directly.</a></p>
+    <p class="reveal" style="font-size:13px;color:var(--silver-d);max-width:560px;line-height:2.2;margin-top:20px;font-weight:200;">Everything you need to know about working with Fenix. Can't find the answer? <a href="#" onclick="showPage('contact')" style="color:var(--gold);text-decoration:none;">Contact us directly.</a></p>
   </section>
 
   <div class="faq-body">
     <div class="section-label">General</div>
     <div class="faq-list">
-
       <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">
-          What is Fenix Live Dealer Studio?
-          <div class="faq-icon">+</div>
-        </div>
+        <div class="faq-q" onclick="toggleFaq(this)">What is Fenix Live Dealer Studio?<div class="faq-icon">+</div></div>
         <div class="faq-a">Fenix is a full-service live dealer studio management company. We design, build, staff, and operate professional live casino environments for iGaming operators worldwide — providing everything from custom table design and 4K streaming technology to certified multilingual dealers.</div>
       </div>
-
       <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">
-          What services does Fenix offer?
-          <div class="faq-icon">+</div>
-        </div>
+        <div class="faq-q" onclick="toggleFaq(this)">What services does Fenix offer?<div class="faq-icon">+</div></div>
         <div class="faq-a">Our core services include: Full Studio Management, Customised Table Design, Live Streaming Software, Professional Dealer Staffing, Multilingual Dealer Programs, Studio Design & Atmosphere, and Complete Studio Build-Outs. We can serve as an end-to-end partner or support specific elements of your operation.</div>
       </div>
-
       <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">
-          How many languages do your dealers speak?
-          <div class="faq-icon">+</div>
-        </div>
+        <div class="faq-q" onclick="toggleFaq(this)">How many languages do your dealers speak?<div class="faq-icon">+</div></div>
         <div class="faq-a">Our dealer talent pool covers 48+ languages, including English, Mandarin, Arabic, Portuguese, Spanish, French, German, Russian, and many more. We can match native-speaking dealers to your target markets with flexible scheduling.</div>
       </div>
-
       <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">
-          What streaming quality does Fenix provide?
-          <div class="faq-icon">+</div>
-        </div>
+        <div class="faq-q" onclick="toggleFaq(this)">What streaming quality does Fenix provide?<div class="faq-icon">+</div></div>
         <div class="faq-a">We deliver 4K Ultra HD streaming with ultra-low latency through our proprietary software infrastructure. Our multi-CDN architecture ensures 99% uptime with automatic failover, and our streams integrate seamlessly with all major casino platform providers.</div>
       </div>
-
       <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">
-          Can Fenix build a studio from scratch?
-          <div class="faq-icon">+</div>
-        </div>
+        <div class="faq-q" onclick="toggleFaq(this)">Can Fenix build a studio from scratch?<div class="faq-icon">+</div></div>
         <div class="faq-a">Absolutely. Our Full Studio Build-Out service covers everything from floor planning and architectural fit-out to custom table installation, camera rigging, lighting design, and going live. We deliver a turnkey, broadcast-ready studio operation.</div>
       </div>
-
       <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">
-          Where are your studios located?
-          <div class="faq-icon">+</div>
-        </div>
+        <div class="faq-q" onclick="toggleFaq(this)">Where are your studios located?<div class="faq-icon">+</div></div>
         <div class="faq-a">Fenix operates studios across three continents, with headquarters in Malta and Tbilisi, Georgia. We can partner with operators globally and assist with local regulatory compliance in all major licensed jurisdictions.</div>
       </div>
-
       <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">
-          Do you offer a demo or consultation?
-          <div class="faq-icon">+</div>
-        </div>
+        <div class="faq-q" onclick="toggleFaq(this)">Do you offer a demo or consultation?<div class="faq-icon">+</div></div>
         <div class="faq-a">Yes. We offer virtual studio tours and in-person consultations for qualified operators. Use the Book a Demo button to schedule a session with our team and we'll walk you through our capabilities, infrastructure, and how we can serve your specific requirements.</div>
       </div>
-
       <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">
-          What is Fenix's uptime guarantee?
-          <div class="faq-icon">+</div>
-        </div>
+        <div class="faq-q" onclick="toggleFaq(this)">What is Fenix's uptime guarantee?<div class="faq-icon">+</div></div>
         <div class="faq-a">We guarantee 99% uptime across all active studio feeds, backed by multi-CDN redundancy, 24/7 technical monitoring, and rapid-response support. SLAs are customised per partnership agreement.</div>
       </div>
-
       <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">
-          How do I get started with Fenix?
-          <div class="faq-icon">+</div>
-        </div>
+        <div class="faq-q" onclick="toggleFaq(this)">How do I get started with Fenix?<div class="faq-icon">+</div></div>
         <div class="faq-a">Simply reach out through our Contact page or click "Book a Demo" anywhere on the site. Our partnerships team will respond within 24 hours to schedule a discovery call and understand your studio requirements.</div>
       </div>
-
     </div>
   </div>
 
   <section class="cta-section">
-    <h2 class="cta-title reveal">Still Have <span style="color:var(--gold);font-style:italic;">Questions?</span></h2>
+    <h2 class="cta-title reveal">Still Have <span style="color:var(--gold);font-style:italic;font-family:'Cormorant Garamond',serif;">Questions?</span></h2>
     <p class="cta-sub reveal">Our team is available 24/7 for existing clients and within 24 hours for new inquiries.</p>
-    <div class="reveal"><a href="#" class="btn-primary" onclick="showPage('contact')">Contact Us</a></div>
+    <div class="reveal"><a href="#" class="btn-primary" onclick="showPage('contact')"><span>Contact Us</span></a></div>
   </section>
-</div>
+</div><!-- /faq -->
 
-<!-- ════════════════════════════════ CONTACT ════════════════════════════════ -->
+<!-- ═══════════════════════ CONTACT ═══════════════════════ -->
 <div id="contact" class="page">
   <section class="contact-hero">
     <div class="section-label">Get In Touch</div>
@@ -1097,7 +1209,7 @@ footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 4
     <div class="contact-info">
       <div class="contact-item reveal">
         <div class="ci-label">Email</div>
-        <div class="ci-value"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4129242d2d2e0127242f283932353425282e6f222e2c">[email&#160;protected]</a></div>
+        <div class="ci-value">info@fenixstudio.com</div>
         <div class="ci-sub">For general inquiries and demos</div>
       </div>
       <div class="contact-item reveal">
@@ -1112,15 +1224,21 @@ footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 4
       </div>
       <div class="contact-item reveal">
         <div class="ci-label">Partnerships</div>
-        <div class="ci-value"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="9dedfcefe9f3f8efeeddfbf8f3f4e5eee9e8f9f4f2b3fef2f0">[email&#160;protected]</a></div>
+        <div class="ci-value">partners@fenixstudio.com</div>
         <div class="ci-sub">Technology and affiliate partnerships</div>
       </div>
       <div class="reveal" style="margin-top:24px;">
-        <div style="font-size:10px;letter-spacing:4px;color:var(--dim);text-transform:uppercase;margin-bottom:18px;">Follow Fenix</div>
+        <div style="font-size:9px;letter-spacing:5px;color:var(--dim);text-transform:uppercase;margin-bottom:18px;font-weight:200;">Follow Fenix</div>
         <div style="display:flex;gap:10px;">
-          <a href="#" class="social-btn">in</a>
-          <a href="#" class="social-btn">𝕏</a>
-          <a href="#" class="social-btn">▶</a>
+          <a href="#" class="social-btn">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2h4v4H2zM8 2h4v4H8zM2 8h4v4H2zM8 8h4v4H8z" stroke="#c0c0c8" stroke-width="0.8" fill="none"/></svg>
+          </a>
+          <a href="#" class="social-btn">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2 L12 12 M12 2 L2 12" stroke="#c0c0c8" stroke-width="1.2" stroke-linecap="round"/></svg>
+          </a>
+          <a href="#" class="social-btn">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polygon points="3,2 12,7 3,12" stroke="#c0c0c8" stroke-width="1.1" fill="none"/></svg>
+          </a>
         </div>
       </div>
     </div>
@@ -1148,30 +1266,28 @@ footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 4
       <div class="form-group">
         <label class="form-label">Service Interest</label>
         <select class="form-select">
-          <option value="" style="background:var(--bg3)">Select a service...</option>
-          <option style="background:var(--bg3)">Full Studio Management</option>
-          <option style="background:var(--bg3)">Customised Table Design</option>
-          <option style="background:var(--bg3)">Live Streaming Software</option>
-          <option style="background:var(--bg3)">Professional Dealers</option>
-          <option style="background:var(--bg3)">Multilingual Dealers</option>
-          <option style="background:var(--bg3)">Studio Design & Atmosphere</option>
-          <option style="background:var(--bg3)">Full Studio Build-Out</option>
+          <option value="" style="background:#0e0e18">Select a service...</option>
+          <option style="background:#0e0e18">Full Studio Management</option>
+          <option style="background:#0e0e18">Customised Table Design</option>
+          <option style="background:#0e0e18">Live Streaming Software</option>
+          <option style="background:#0e0e18">Professional Dealers</option>
+          <option style="background:#0e0e18">Multilingual Dealers</option>
+          <option style="background:#0e0e18">Studio Design & Atmosphere</option>
+          <option style="background:#0e0e18">Full Studio Build-Out</option>
         </select>
       </div>
       <div class="form-group">
         <label class="form-label">Message</label>
         <textarea class="form-textarea" placeholder="Tell us about your project, timeline, and requirements..."></textarea>
       </div>
-      <button class="btn-primary" style="width:100%;border:none;font-size:12px;cursor:none;" onclick="submitForm(this)">
-        Send Message
-      </button>
-      <p style="font-size:11px;color:var(--dim);margin-top:14px;text-align:center;letter-spacing:1px;">We respond within 24 hours · All communications are confidential</p>
+      <button class="btn-primary" style="width:100%;border:none;font-size:10px;cursor:pointer;" onclick="submitForm(this)"><span>Send Message</span></button>
+      <p style="font-size:10px;color:var(--dim);margin-top:16px;text-align:center;letter-spacing:2px;font-weight:200;">We respond within 24 hours · All communications are confidential</p>
     </div>
   </div>
-</div>
+</div><!-- /contact -->
 
-
-<!-- ════════════ GLOBAL FOOTER ════════════ -->
+<!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+<div class="metallic-sep"></div>
 <footer>
   <div class="footer-grid">
     <div class="footer-brand">
@@ -1182,40 +1298,46 @@ footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 4
     <div class="footer-col">
       <h4>Navigate</h4>
       <ul class="footer-links">
-        <li><a href="#" onclick="showPage('home')">Home</a></li>
-        <li><a href="#" onclick="showPage('about')">About Fenix</a></li>
-        <li><a href="#" onclick="showPage('services')">Our Services</a></li>
-        <li><a href="#" onclick="showPage('gallery')">Gallery</a></li>
-        <li><a href="#" onclick="showPage('faq')">FAQ</a></li>
-        <li><a href="#" onclick="showPage('contact')">Contact</a></li>
+        <li><a onclick="showPage('home')">Home</a></li>
+        <li><a onclick="showPage('about')">About Fenix</a></li>
+        <li><a onclick="showPage('services')">Our Services</a></li>
+        <li><a onclick="showPage('gallery')">Gallery</a></li>
+        <li><a onclick="showPage('faq')">FAQ</a></li>
+        <li><a onclick="showPage('contact')">Contact</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <h4>Services</h4>
       <ul class="footer-links">
-        <li><a href="#">Studio Management</a></li>
-        <li><a href="#">Custom Tables</a></li>
-        <li><a href="#">Live Streaming</a></li>
-        <li><a href="#">Professional Dealers</a></li>
-        <li><a href="#">Studio Design</a></li>
+        <li><a>Studio Management</a></li>
+        <li><a>Custom Tables</a></li>
+        <li><a>Live Streaming</a></li>
+        <li><a>Professional Dealers</a></li>
+        <li><a>Studio Design</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <h4>Contact</h4>
       <ul class="footer-links">
-        <li><a href="/cdn-cgi/l/email-protection#1c75727a735c7a7972756470756a79327f7371"><span class="__cf_email__" data-cfemail="71181f171e3117141f18091d1807145f121e1c">[email&#160;protected]</span></a></li>
-        <li><a href="#">+1 (800) FENIX-LD</a></li>
-        <li><a href="#">24/7 Support</a></li>
-        <li><a href="#" onclick="showPage('contact')">Book a Demo</a></li>
+        <li><a>info@fenixstudio.com</a></li>
+        <li><a>+1 (800) FENIX-LD</a></li>
+        <li><a>24/7 Support</a></li>
+        <li><a onclick="showPage('contact')">Book a Demo</a></li>
       </ul>
     </div>
   </div>
   <div class="footer-bottom">
     <div class="footer-copy">© 2025 FENIX LIVE DEALER STUDIO. ALL RIGHTS RESERVED.</div>
     <div class="footer-social">
-      <a href="#" class="soc-btn">in</a>
-      <a href="#" class="soc-btn">𝕏</a>
-      <a href="#" class="soc-btn">▶</a>
+      <a href="#" class="soc-btn">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 1h4v4H1zM7 1h4v4H7zM1 7h4v4H1zM7 7h4v4H7z" stroke="#808090" stroke-width="0.7" fill="none"/></svg>
+      </a>
+      <a href="#" class="soc-btn">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 1 L11 11 M11 1 L1 11" stroke="#808090" stroke-width="1.1" stroke-linecap="round"/></svg>
+      </a>
+      <a href="#" class="soc-btn">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><polygon points="2,1 11,6 2,11" stroke="#808090" stroke-width="1" fill="none"/></svg>
+      </a>
     </div>
   </div>
 </footer>
@@ -1225,24 +1347,18 @@ footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 4
 const cur=document.getElementById('cur'),ring=document.getElementById('curRing');
 let mx=0,my=0,rx=0,ry=0;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
-(function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);})();
-document.querySelectorAll('a,button,.feat-card,.svc-card,.gal-item,.faq-q,.val-card').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{cur.style.width='18px';cur.style.height='18px';ring.style.width='56px';ring.style.height='56px';ring.style.borderColor='rgba(201,168,76,0.8)';});
-  el.addEventListener('mouseleave',()=>{cur.style.width='10px';cur.style.height='10px';ring.style.width='36px';ring.style.height='36px';ring.style.borderColor='rgba(201,168,76,0.5)';});
+(function animRing(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);})();
+document.querySelectorAll('a,button,.feat-card,.svc-card,.gal-item,.faq-q,.val-card,.showcase-item').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.style.width='16px';cur.style.height='16px';cur.style.background='var(--gold-l)';ring.style.width='52px';ring.style.height='52px';ring.style.borderColor='rgba(212,168,75,0.9)';});
+  el.addEventListener('mouseleave',()=>{cur.style.width='8px';cur.style.height='8px';cur.style.background='var(--gold)';ring.style.width='32px';ring.style.height='32px';ring.style.borderColor='rgba(212,168,75,0.6)';});
 });
 
 /* ── NAV SCROLL ── */
 window.addEventListener('scroll',()=>{document.getElementById('mainNav').classList.toggle('scrolled',window.scrollY>50);});
 
 /* ── MOBILE MENU ── */
-function toggleMobile(){
-  const m=document.getElementById('mobileMenu'),h=document.getElementById('hamburger');
-  m.classList.toggle('open');h.classList.toggle('open');
-}
-function closeMobile(){
-  document.getElementById('mobileMenu').classList.remove('open');
-  document.getElementById('hamburger').classList.remove('open');
-}
+function toggleMobile(){const m=document.getElementById('mobileMenu'),h=document.getElementById('hamburger');m.classList.toggle('open');h.classList.toggle('open');}
+function closeMobile(){document.getElementById('mobileMenu').classList.remove('open');document.getElementById('hamburger').classList.remove('open');}
 
 /* ── PAGE NAV ── */
 function showPage(id){
@@ -1258,20 +1374,21 @@ function showPage(id){
   return false;
 }
 
-/* ── PARTICLES ── */
+/* ── PARTICLES — gold and silver mix ── */
 (function(){
   const c=document.getElementById('particles');
   if(!c)return;
-  for(let i=0;i<40;i++){
-    const p=document.createElement('div');p.className='particle';
-    p.style.cssText='left:'+Math.random()*100+'%;bottom:-10px;animation-duration:'+(6+Math.random()*14)+'s;animation-delay:'+(-Math.random()*20)+'s;width:'+(1+Math.random()*1.5)+'px;height:'+(1+Math.random()*1.5)+'px;';
+  for(let i=0;i<50;i++){
+    const p=document.createElement('div');
+    p.className='particle '+(i%3===0?'silver-p':'gold-p');
+    p.style.cssText='left:'+Math.random()*100+'%;bottom:-10px;animation-duration:'+(7+Math.random()*16)+'s;animation-delay:'+(-Math.random()*24)+'s;width:'+(1+Math.random()*1.5)+'px;height:'+(1+Math.random()*1.5)+'px;';
     c.appendChild(p);
   }
 })();
 
 /* ── REVEAL ── */
 function initReveal(){
-  const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:.08});
+  const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:.07});
   document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el=>obs.observe(el));
 }
 initReveal();
@@ -1280,7 +1397,8 @@ initReveal();
 function animCounter(el,target){
   let c=0;const step=target/60;
   const t=setInterval(()=>{c+=step;if(c>=target){c=target;clearInterval(t);}
-    el.textContent=Math.round(c)+(el.dataset.count==='99'?'%':'+');},18);
+    const s=el.dataset.suffix||'+';
+    el.textContent=Math.round(c)+s;},18);
 }
 function initCounters(){
   document.querySelectorAll('[data-count]').forEach(el=>{
@@ -1316,15 +1434,15 @@ document.querySelectorAll('.tilt').forEach(el=>{
     const r=el.getBoundingClientRect();
     const x=(e.clientX-r.left)/r.width-.5;
     const y=(e.clientY-r.top)/r.height-.5;
-    el.style.transform='perspective(600px) rotateY('+(x*10)+'deg) rotateX('+(-y*10)+'deg)';
+    el.style.transform='perspective(600px) rotateY('+(x*8)+'deg) rotateX('+(-y*8)+'deg)';
   });
   el.addEventListener('mouseleave',()=>{el.style.transform='';});
 });
 
 /* ── FORM SUBMIT ── */
 function submitForm(btn){
-  btn.textContent='Sending...';btn.disabled=true;
-  setTimeout(()=>{btn.textContent='Message Sent ✓';btn.style.background='var(--gold-d)';},1200);
+  btn.innerHTML='<span>Sending...</span>';btn.disabled=true;
+  setTimeout(()=>{btn.innerHTML='<span>Message Sent ✓</span>';btn.style.background='linear-gradient(135deg,var(--gold-d),#806020)';},1200);
 }
 
 /* ── STORY NAV ── */
@@ -1332,15 +1450,19 @@ document.querySelectorAll('.story-nav-item').forEach((item,i)=>{
   item.addEventListener('click',()=>{
     document.querySelectorAll('.story-nav-item').forEach(n=>n.classList.remove('active'));
     item.classList.add('active');
-    document.querySelectorAll('.story-block').forEach((b,j)=>{
-      b.style.display=j===i?'block':'none';
-    });
+    document.querySelectorAll('.story-block').forEach((b,j)=>{b.style.display=j===i?'block':'none';});
   });
 });
-(function(){
-  const blocks=document.querySelectorAll('.story-block');
-  blocks.forEach((b,i)=>{ b.style.display=i===0?'block':'none'; });
-})();
+(function(){const blocks=document.querySelectorAll('.story-block');blocks.forEach((b,i)=>{b.style.display=i===0?'block':'none';});})();
+
+/* ── Gallery SVG fallback ── */
+document.querySelectorAll('.gal-inner img').forEach(img=>{
+  img.addEventListener('error',()=>{
+    img.style.display='none';
+    const ph=img.nextElementSibling;
+    if(ph&&ph.classList.contains('gal-svg-ph'))ph.style.display='flex';
+  });
+});
 </script>
 </body>
 </html>
