@@ -20,7 +20,7 @@ html{overflow-x:hidden;scroll-behavior:smooth;}
 body{background:var(--bg);color:var(--white);font-family:'DM Sans',sans-serif;overflow-x:hidden;}
 
 /* PAGE SYSTEM */
-.page{display:none;width:100%;min-height:100vh;}
+.page{display:none;width:100%;}
 .page.active{display:block;}
 
 /* CURSOR — purely decorative, never blocks interaction */
@@ -284,7 +284,7 @@ nav.scrolled{background:rgba(4,4,10,0.96);border-bottom:1px solid var(--bor);pad
 .features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:56px;}
 .feat-card{
   background:var(--bg3);padding:48px 36px;
-  position:relative;overflow:hidden;transition:background .3s,transform .3s;cursor:default;
+  position:relative;overflow:hidden;transition:background .3s,transform .3s;cursor:none;
 }
 .feat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent);transform:scaleX(0);transition:transform .4s;}
 .feat-card:hover::before{transform:scaleX(1);}
@@ -314,7 +314,7 @@ nav.scrolled{background:rgba(4,4,10,0.96);border-bottom:1px solid var(--bor);pad
 .faq-item{border-bottom:1px solid var(--bor2);overflow:hidden;}
 .faq-q{
   display:flex;align-items:center;justify-content:space-between;
-  padding:28px 0;cursor:pointer;
+  padding:28px 0;cursor:none;
   font-family:'Playfair Display',serif;font-size:20px;font-weight:400;
   transition:color .3s;
 }
@@ -337,7 +337,7 @@ nav.scrolled{background:rgba(4,4,10,0.96);border-bottom:1px solid var(--bor);pad
 .story-nav{position:sticky;top:110px;height:fit-content;}
 .story-nav-item{
   padding:18px 0;border-bottom:1px solid var(--bor2);
-  font-size:11px;letter-spacing:3px;color:var(--dim);text-transform:uppercase;cursor:pointer;
+  font-size:11px;letter-spacing:3px;color:var(--dim);text-transform:uppercase;cursor:none;
   transition:color .3s;display:flex;align-items:center;gap:14px;
 }
 .story-nav-item.active{color:var(--gold);}
@@ -355,7 +355,7 @@ nav.scrolled{background:rgba(4,4,10,0.96);border-bottom:1px solid var(--bor);pad
 /* ── SERVICES PAGE ── */
 .services-hero{padding:160px 64px 80px;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(168,25,46,.05),transparent);}
 .services-grid{padding:0 64px 80px;display:grid;grid-template-columns:1fr 1fr;gap:3px;}
-.svc-card{background:var(--bg3);padding:56px 48px;position:relative;overflow:hidden;transition:background .3s;cursor:default;}
+.svc-card{background:var(--bg3);padding:56px 48px;position:relative;overflow:hidden;transition:background .3s;cursor:none;}
 .svc-card::after{content:'';position:absolute;right:-80px;bottom:-80px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,.04),transparent 70%);transition:right .5s,bottom .5s;}
 .svc-card:hover::after{right:-40px;bottom:-40px;}
 .svc-card:hover{background:#0f0f1a;}
@@ -373,10 +373,10 @@ nav.scrolled{background:rgba(4,4,10,0.96);border-bottom:1px solid var(--bor);pad
 /* ── GALLERY PAGE ── */
 .gallery-hero{padding:160px 64px 60px;}
 .gallery-filters{padding:0 64px 36px;display:flex;gap:12px;flex-wrap:wrap;}
-.gal-filter{border:1px solid var(--bor2);padding:9px 22px;font-size:11px;letter-spacing:3px;color:var(--dim);text-transform:uppercase;cursor:pointer;background:transparent;transition:all .3s;}
+.gal-filter{border:1px solid var(--bor2);padding:9px 22px;font-size:11px;letter-spacing:3px;color:var(--dim);text-transform:uppercase;cursor:none;background:transparent;transition:all .3s;}
 .gal-filter.active,.gal-filter:hover{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,.04);}
 .gallery-grid{padding:0 64px 80px;display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:190px;gap:4px;}
-.gal-item{overflow:hidden;cursor:pointer;position:relative;background:var(--bg3);transition:transform .3s;}
+.gal-item{overflow:hidden;cursor:none;position:relative;background:var(--bg3);transition:transform .3s;}
 .gal-item:hover{z-index:2;transform:scale(1.02);}
 .gal-item:hover .gal-overlay{opacity:1;}
 .gal-item:nth-child(1){grid-column:span 5;grid-row:span 2;}
@@ -436,12 +436,12 @@ footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 4
 .footer-col h4{font-size:10px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:22px;}
 .footer-links{list-style:none;}
 .footer-links li{margin-bottom:10px;}
-.footer-links a{color:var(--dim2);text-decoration:none;font-size:13px;transition:color .3s;cursor:pointer;}
+.footer-links a{color:var(--dim2);text-decoration:none;font-size:13px;transition:color .3s;cursor:none;}
 .footer-links a:hover{color:var(--gold);}
 .footer-bottom{border-top:1px solid var(--bor2);padding-top:28px;display:flex;justify-content:space-between;align-items:center;}
 .footer-copy{font-size:11px;color:var(--dim);letter-spacing:2px;}
 .footer-social{display:flex;gap:12px;}
-.soc-btn{width:34px;height:34px;border:1px solid var(--bor2);display:flex;align-items:center;justify-content:center;color:var(--dim2);font-size:13px;cursor:pointer;transition:all .3s;text-decoration:none;}
+.soc-btn{width:34px;height:34px;border:1px solid var(--bor2);display:flex;align-items:center;justify-content:center;color:var(--dim2);font-size:13px;cursor:none;transition:all .3s;text-decoration:none;}
 .soc-btn:hover{border-color:var(--gold);color:var(--gold);}
 
 /* REVEAL */
@@ -460,7 +460,7 @@ footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 4
 .live-dot{width:6px;height:6px;background:#e05060;border-radius:50%;animation:blink 1s infinite;}
 
 /* SOCIAL BTN */
-.social-btn{width:40px;height:40px;border:1px solid var(--bor2);display:flex;align-items:center;justify-content:center;color:var(--dim2);font-size:15px;cursor:pointer;transition:all .3s;text-decoration:none;}
+.social-btn{width:40px;height:40px;border:1px solid var(--bor2);display:flex;align-items:center;justify-content:center;color:var(--dim2);font-size:15px;cursor:none;transition:all .3s;text-decoration:none;}
 .social-btn:hover{border-color:var(--gold);color:var(--gold);}
 
 /* RESPONSIVE */
@@ -510,19 +510,19 @@ footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 4
 
 <!-- NAV -->
 <nav id="mainNav">
-  <a href="#" class="nav-logo" onclick="return showPage('home')">
+  <a href="#" class="nav-logo" onclick="showPage('home')">
     FENIX
     <span class="nav-logo-sub">Live Dealer Studio</span>
   </a>
   <ul class="nav-links">
-    <li><a href="#" onclick="return showPage('home')">Home</a></li>
-    <li><a href="#" onclick="return showPage('about')">About</a></li>
-    <li><a href="#" onclick="return showPage('services')">Services</a></li>
-    <li><a href="#" onclick="return showPage('gallery')">Gallery</a></li>
-    <li><a href="#" onclick="return showPage('faq')">FAQ</a></li>
-    <li><a href="#" onclick="return showPage('contact')">Contact</a></li>
+    <li><a href="#" onclick="showPage('home')">Home</a></li>
+    <li><a href="#" onclick="showPage('about')">About</a></li>
+    <li><a href="#" onclick="showPage('services')">Services</a></li>
+    <li><a href="#" onclick="showPage('gallery')">Gallery</a></li>
+    <li><a href="#" onclick="showPage('faq')">FAQ</a></li>
+    <li><a href="#" onclick="showPage('contact')">Contact</a></li>
   </ul>
-  <a href="#" class="nav-cta" onclick="showPage('contact');return false;">Book a Demo</a>
+  <a href="#" class="nav-cta" onclick="showPage('contact')">Book a Demo</a>
   <button class="hamburger" id="hamburger" onclick="toggleMobile()">
     <span></span><span></span><span></span>
   </button>
@@ -649,8 +649,8 @@ footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 4
       </h1>
       <p class="hero-sub">Professional live dealer studios · Real-time 4K streaming · World-class certified dealers</p>
       <div class="hero-actions">
-        <a href="#" class="btn-primary" onclick="return showPage('services')">Explore Services</a>
-        <a href="#" class="btn-outline" onclick="return showPage('contact')">Book a Demo</a>
+        <a href="#" class="btn-primary" onclick="showPage('services')">Explore Services</a>
+        <a href="#" class="btn-outline" onclick="showPage('contact')">Book a Demo</a>
       </div>
     </div>
 
@@ -732,7 +732,7 @@ footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 4
       <p style="font-size:14px;color:var(--dim2);line-height:2;margin-bottom:40px;">
         From custom table design to multilingual dealer recruitment, we provide the complete ecosystem for live casino success.
       </p>
-      <a href="#" class="btn-primary" onclick="return showPage('about')">Discover Our Studio</a>
+      <a href="#" class="btn-primary" onclick="showPage('about')">Discover Our Studio</a>
     </div>
   </div>
 
@@ -794,59 +794,12 @@ footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 4
     <h2 class="cta-title reveal">Ready to Launch<br><span style="color:var(--gold);font-style:italic;">Your Live Studio?</span></h2>
     <p class="cta-sub reveal">Let's build something extraordinary together.</p>
     <div class="reveal">
-      <a href="#" class="btn-primary" onclick="return showPage('contact')" style="margin-right:16px">Book a Demo</a>
-      <a href="#" class="btn-outline" onclick="return showPage('services')">View Services</a>
+      <a href="#" class="btn-primary" onclick="showPage('contact')" style="margin-right:16px">Book a Demo</a>
+      <a href="#" class="btn-outline" onclick="showPage('services')">View Services</a>
     </div>
   </section>
 
   <!-- FOOTER -->
-  <footer>
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <div class="footer-logo">FENIX</div>
-        <div class="footer-logo-sub">LIVE DEALER STUDIO</div>
-        <p>The world's most trusted professional live dealer studio management provider.</p>
-      </div>
-      <div class="footer-col">
-        <h4>Navigate</h4>
-        <ul class="footer-links">
-          <li><a href="#" onclick="return showPage('home')">Home</a></li>
-          <li><a href="#" onclick="return showPage('about')">About Fenix</a></li>
-          <li><a href="#" onclick="return showPage('services')">Our Services</a></li>
-          <li><a href="#" onclick="return showPage('gallery')">Gallery</a></li>
-          <li><a href="#" onclick="return showPage('faq')">FAQ</a></li>
-          <li><a href="#" onclick="return showPage('contact')">Contact</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Services</h4>
-        <ul class="footer-links">
-          <li><a href="#">Studio Management</a></li>
-          <li><a href="#">Custom Tables</a></li>
-          <li><a href="#">Live Streaming</a></li>
-          <li><a href="#">Professional Dealers</a></li>
-          <li><a href="#">Studio Design</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Contact</h4>
-        <ul class="footer-links">
-          <li><a href="/cdn-cgi/l/email-protection#a6cec3cacac9e6c0c3c8cfded5d2d3c2cfc988c5c9cb"><span class="__cf_email__" data-cfemail="1078757c7c7f5076757e796863646574797f3e737f7d">[email&#160;protected]</span></a></li>
-          <li><a href="#">+1 (800) FENIX-LD</a></li>
-          <li><a href="#">24/7 Support</a></li>
-          <li><a href="#" onclick="return showPage('contact')">Book a Demo</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <div class="footer-copy">© 2025 FENIX LIVE DEALER STUDIO. ALL RIGHTS RESERVED.</div>
-      <div class="footer-social">
-        <a href="#" class="soc-btn">in</a>
-        <a href="#" class="soc-btn">𝕏</a>
-        <a href="#" class="soc-btn">▶</a>
-      </div>
-    </div>
-  </footer>
 </div>
 
 <!-- ════════════════════════════════ ABOUT ════════════════════════════════ -->
@@ -919,25 +872,8 @@ footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 4
   <section class="cta-section">
     <h2 class="cta-title reveal">Start Your <span style="color:var(--gold);font-style:italic;">Journey</span></h2>
     <p class="cta-sub reveal">Join 500+ operators who trust Fenix</p>
-    <div class="reveal"><a href="#" class="btn-primary" onclick="return showPage('contact')">Get In Touch</a></div>
+    <div class="reveal"><a href="#" class="btn-primary" onclick="showPage('contact')">Get In Touch</a></div>
   </section>
-
-  <footer>
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <div class="footer-logo">FENIX</div>
-        <div class="footer-logo-sub">LIVE DEALER STUDIO</div>
-        <p>The world's most trusted professional live dealer studio management provider.</p>
-      </div>
-      <div class="footer-col"><h4>Navigate</h4><ul class="footer-links"><li><a href="#" onclick="return showPage('home')">Home</a></li><li><a href="#" onclick="return showPage('about')">About</a></li><li><a href="#" onclick="return showPage('services')">Services</a></li><li><a href="#" onclick="return showPage('gallery')">Gallery</a></li><li><a href="#" onclick="return showPage('faq')">FAQ</a></li><li><a href="#" onclick="return showPage('contact')">Contact</a></li></ul></div>
-      <div class="footer-col"><h4>Services</h4><ul class="footer-links"><li><a href="#">Studio Management</a></li><li><a href="#">Custom Tables</a></li><li><a href="#">Live Streaming</a></li><li><a href="#">Professional Dealers</a></li></ul></div>
-      <div class="footer-col"><h4>Contact</h4><ul class="footer-links"><li><a href="/cdn-cgi/l/email-protection#ef878a838380af898a8186979c9b9a8b8680c18c8082"><span class="__cf_email__" data-cfemail="bcd4d9d0d0d3fcdad9d2d5c4cfc8c9d8d5d392dfd3d1">[email&#160;protected]</span></a></li><li><a href="#">24/7 Support</a></li><li><a href="#" onclick="return showPage('contact')">Book a Demo</a></li></ul></div>
-    </div>
-    <div class="footer-bottom">
-      <div class="footer-copy">© 2025 FENIX LIVE DEALER STUDIO. ALL RIGHTS RESERVED.</div>
-      <div class="footer-social"><a href="#" class="soc-btn">in</a><a href="#" class="soc-btn">𝕏</a><a href="#" class="soc-btn">▶</a></div>
-    </div>
-  </footer>
 </div>
 
 <!-- ════════════════════════════════ SERVICES ════════════════════════════════ -->
@@ -961,7 +897,7 @@ footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 4
           <span class="svc-tag">Compliance Tools</span>
           <span class="svc-tag">24/7 Operations</span>
         </div>
-        <a href="#" class="btn-primary" style="margin-top:32px;display:inline-block" onclick="return showPage('contact')">Get Started</a>
+        <a href="#" class="btn-primary" style="margin-top:32px;display:inline-block" onclick="showPage('contact')">Get Started</a>
       </div>
       <div class="svc-feat-visual">
         <div class="hex">
@@ -1014,18 +950,8 @@ footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 4
   <section class="cta-section">
     <h2 class="cta-title reveal">Ready to <span style="color:var(--gold);font-style:italic;">Get Started?</span></h2>
     <p class="cta-sub reveal">Let's discuss your studio requirements.</p>
-    <div class="reveal"><a href="#" class="btn-primary" onclick="return showPage('contact')">Book a Consultation</a></div>
+    <div class="reveal"><a href="#" class="btn-primary" onclick="showPage('contact')">Book a Consultation</a></div>
   </section>
-
-  <footer>
-    <div class="footer-grid">
-      <div class="footer-brand"><div class="footer-logo">FENIX</div><div class="footer-logo-sub">LIVE DEALER STUDIO</div><p>The world's most trusted professional live dealer studio management provider.</p></div>
-      <div class="footer-col"><h4>Navigate</h4><ul class="footer-links"><li><a href="#" onclick="return showPage('home')">Home</a></li><li><a href="#" onclick="return showPage('about')">About</a></li><li><a href="#" onclick="return showPage('services')">Services</a></li><li><a href="#" onclick="return showPage('gallery')">Gallery</a></li><li><a href="#" onclick="return showPage('faq')">FAQ</a></li><li><a href="#" onclick="return showPage('contact')">Contact</a></li></ul></div>
-      <div class="footer-col"><h4>Services</h4><ul class="footer-links"><li><a href="#">Studio Management</a></li><li><a href="#">Custom Tables</a></li><li><a href="#">Live Streaming</a></li><li><a href="#">Professional Dealers</a></li></ul></div>
-      <div class="footer-col"><h4>Contact</h4><ul class="footer-links"><li><a href="/cdn-cgi/l/email-protection#95fdf0f9f9fad5f3f0fbfcede6e1e0f1fcfabbf6faf8"><span class="__cf_email__" data-cfemail="563e333a3a39163033383f2e252223323f397835393b">[email&#160;protected]</span></a></li><li><a href="#">24/7 Support</a></li><li><a href="#" onclick="return showPage('contact')">Book a Demo</a></li></ul></div>
-    </div>
-    <div class="footer-bottom"><div class="footer-copy">© 2025 FENIX LIVE DEALER STUDIO. ALL RIGHTS RESERVED.</div><div class="footer-social"><a href="#" class="soc-btn">in</a><a href="#" class="soc-btn">𝕏</a><a href="#" class="soc-btn">▶</a></div></div>
-  </footer>
 </div>
 
 <!-- ════════════════════════════════ GALLERY ════════════════════════════════ -->
@@ -1061,18 +987,8 @@ footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 4
   <section class="cta-section">
     <h2 class="cta-title reveal">Want to See More?<br><span style="color:var(--gold);font-style:italic;">Book a Studio Tour</span></h2>
     <p class="cta-sub reveal">Experience Fenix quality firsthand — virtually or in person.</p>
-    <div class="reveal"><a href="#" class="btn-primary" onclick="return showPage('contact')">Request a Tour</a></div>
+    <div class="reveal"><a href="#" class="btn-primary" onclick="showPage('contact')">Request a Tour</a></div>
   </section>
-
-  <footer>
-    <div class="footer-grid">
-      <div class="footer-brand"><div class="footer-logo">FENIX</div><div class="footer-logo-sub">LIVE DEALER STUDIO</div><p>The world's most trusted professional live dealer studio management provider.</p></div>
-      <div class="footer-col"><h4>Navigate</h4><ul class="footer-links"><li><a href="#" onclick="return showPage('home')">Home</a></li><li><a href="#" onclick="return showPage('about')">About</a></li><li><a href="#" onclick="return showPage('services')">Services</a></li><li><a href="#" onclick="return showPage('gallery')">Gallery</a></li><li><a href="#" onclick="return showPage('faq')">FAQ</a></li><li><a href="#" onclick="return showPage('contact')">Contact</a></li></ul></div>
-      <div class="footer-col"><h4>Services</h4><ul class="footer-links"><li><a href="#">Studio Management</a></li><li><a href="#">Custom Tables</a></li><li><a href="#">Live Streaming</a></li><li><a href="#">Professional Dealers</a></li></ul></div>
-      <div class="footer-col"><h4>Contact</h4><ul class="footer-links"><li><a href="/cdn-cgi/l/email-protection#e58d8089898aa583808b8c9d969190818c8acb868a88"><span class="__cf_email__" data-cfemail="94fcf1f8f8fbd4f2f1fafdece7e0e1f0fdfbbaf7fbf9">[email&#160;protected]</span></a></li><li><a href="#">24/7 Support</a></li><li><a href="#" onclick="return showPage('contact')">Book a Demo</a></li></ul></div>
-    </div>
-    <div class="footer-bottom"><div class="footer-copy">© 2025 FENIX LIVE DEALER STUDIO. ALL RIGHTS RESERVED.</div><div class="footer-social"><a href="#" class="soc-btn">in</a><a href="#" class="soc-btn">𝕏</a><a href="#" class="soc-btn">▶</a></div></div>
-  </footer>
 </div>
 
 <!-- ════════════════════════════════ FAQ ════════════════════════════════ -->
@@ -1081,7 +997,7 @@ footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 4
     <div class="section-label">FAQ</div>
     <h1 class="section-title reveal" style="max-width:620px;">Frequently Asked<br><span class="italic">Questions</span></h1>
     <div class="divider reveal"></div>
-    <p class="reveal" style="font-size:14px;color:var(--dim2);max-width:540px;line-height:2;margin-top:20px;">Everything you need to know about working with Fenix. Can't find the answer? <a href="#" onclick="return showPage('contact')" style="color:var(--gold);text-decoration:none;">Contact us directly.</a></p>
+    <p class="reveal" style="font-size:14px;color:var(--dim2);max-width:540px;line-height:2;margin-top:20px;">Everything you need to know about working with Fenix. Can't find the answer? <a href="#" onclick="showPage('contact')" style="color:var(--gold);text-decoration:none;">Contact us directly.</a></p>
   </section>
 
   <div class="faq-body">
@@ -1166,18 +1082,8 @@ footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 4
   <section class="cta-section">
     <h2 class="cta-title reveal">Still Have <span style="color:var(--gold);font-style:italic;">Questions?</span></h2>
     <p class="cta-sub reveal">Our team is available 24/7 for existing clients and within 24 hours for new inquiries.</p>
-    <div class="reveal"><a href="#" class="btn-primary" onclick="return showPage('contact')">Contact Us</a></div>
+    <div class="reveal"><a href="#" class="btn-primary" onclick="showPage('contact')">Contact Us</a></div>
   </section>
-
-  <footer>
-    <div class="footer-grid">
-      <div class="footer-brand"><div class="footer-logo">FENIX</div><div class="footer-logo-sub">LIVE DEALER STUDIO</div><p>The world's most trusted professional live dealer studio management provider.</p></div>
-      <div class="footer-col"><h4>Navigate</h4><ul class="footer-links"><li><a href="#" onclick="return showPage('home')">Home</a></li><li><a href="#" onclick="return showPage('about')">About</a></li><li><a href="#" onclick="return showPage('services')">Services</a></li><li><a href="#" onclick="return showPage('gallery')">Gallery</a></li><li><a href="#" onclick="return showPage('faq')">FAQ</a></li><li><a href="#" onclick="return showPage('contact')">Contact</a></li></ul></div>
-      <div class="footer-col"><h4>Services</h4><ul class="footer-links"><li><a href="#">Studio Management</a></li><li><a href="#">Custom Tables</a></li><li><a href="#">Live Streaming</a></li><li><a href="#">Professional Dealers</a></li></ul></div>
-      <div class="footer-col"><h4>Contact</h4><ul class="footer-links"><li><a href="/cdn-cgi/l/email-protection#9af2fff6f6f5dafcfff4f3e2e9eeeffef3f5b4f9f5f7"><span class="__cf_email__" data-cfemail="2149444d4d4e6147444f485952555445484e0f424e4c">[email&#160;protected]</span></a></li><li><a href="#">24/7 Support</a></li><li><a href="#" onclick="return showPage('contact')">Book a Demo</a></li></ul></div>
-    </div>
-    <div class="footer-bottom"><div class="footer-copy">© 2025 FENIX LIVE DEALER STUDIO. ALL RIGHTS RESERVED.</div><div class="footer-social"><a href="#" class="soc-btn">in</a><a href="#" class="soc-btn">𝕏</a><a href="#" class="soc-btn">▶</a></div></div>
-  </footer>
 </div>
 
 <!-- ════════════════════════════════ CONTACT ════════════════════════════════ -->
@@ -1257,25 +1163,65 @@ footer{background:var(--bg3);border-top:1px solid var(--bor);padding:80px 64px 4
         <label class="form-label">Message</label>
         <textarea class="form-textarea" placeholder="Tell us about your project, timeline, and requirements..."></textarea>
       </div>
-      <button class="btn-primary" style="width:100%;border:none;font-size:12px;cursor:pointer;" onclick="submitForm(this)">
+      <button class="btn-primary" style="width:100%;border:none;font-size:12px;cursor:none;" onclick="submitForm(this)">
         Send Message
       </button>
       <p style="font-size:11px;color:var(--dim);margin-top:14px;text-align:center;letter-spacing:1px;">We respond within 24 hours · All communications are confidential</p>
     </div>
   </div>
-
-  <footer>
-    <div class="footer-grid">
-      <div class="footer-brand"><div class="footer-logo">FENIX</div><div class="footer-logo-sub">LIVE DEALER STUDIO</div><p>The world's most trusted professional live dealer studio management provider.</p></div>
-      <div class="footer-col"><h4>Navigate</h4><ul class="footer-links"><li><a href="#" onclick="return showPage('home')">Home</a></li><li><a href="#" onclick="return showPage('about')">About</a></li><li><a href="#" onclick="return showPage('services')">Services</a></li><li><a href="#" onclick="return showPage('gallery')">Gallery</a></li><li><a href="#" onclick="return showPage('faq')">FAQ</a></li><li><a href="#" onclick="return showPage('contact')">Contact</a></li></ul></div>
-      <div class="footer-col"><h4>Services</h4><ul class="footer-links"><li><a href="#">Studio Management</a></li><li><a href="#">Custom Tables</a></li><li><a href="#">Live Streaming</a></li><li><a href="#">Professional Dealers</a></li></ul></div>
-      <div class="footer-col"><h4>Contact</h4><ul class="footer-links"><li><a href="/cdn-cgi/l/email-protection#aac2cfc6c6c5eacccfc4c3d2d9dedfcec3c584c9c5c7"><span class="__cf_email__" data-cfemail="355d5059595a7553505b5c4d464140515c5a1b565a58">[email&#160;protected]</span></a></li><li><a href="#">24/7 Support</a></li><li><a href="#" onclick="return showPage('contact')">Book a Demo</a></li></ul></div>
-    </div>
-    <div class="footer-bottom"><div class="footer-copy">© 2025 FENIX LIVE DEALER STUDIO. ALL RIGHTS RESERVED.</div><div class="footer-social"><a href="#" class="soc-btn">in</a><a href="#" class="soc-btn">𝕏</a><a href="#" class="soc-btn">▶</a></div></div>
-  </footer>
 </div>
 
-<script>
+
+<!-- ════════════ GLOBAL FOOTER ════════════ -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-logo">FENIX</div>
+      <div class="footer-logo-sub">LIVE DEALER STUDIO</div>
+      <p>The world's most trusted professional live dealer studio management provider.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Navigate</h4>
+      <ul class="footer-links">
+        <li><a href="#" onclick="showPage('home')">Home</a></li>
+        <li><a href="#" onclick="showPage('about')">About Fenix</a></li>
+        <li><a href="#" onclick="showPage('services')">Our Services</a></li>
+        <li><a href="#" onclick="showPage('gallery')">Gallery</a></li>
+        <li><a href="#" onclick="showPage('faq')">FAQ</a></li>
+        <li><a href="#" onclick="showPage('contact')">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul class="footer-links">
+        <li><a href="#">Studio Management</a></li>
+        <li><a href="#">Custom Tables</a></li>
+        <li><a href="#">Live Streaming</a></li>
+        <li><a href="#">Professional Dealers</a></li>
+        <li><a href="#">Studio Design</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul class="footer-links">
+        <li><a href="mailto:info@fenixlive.com">info@fenixlive.com</a></li>
+        <li><a href="#">+1 (800) FENIX-LD</a></li>
+        <li><a href="#">24/7 Support</a></li>
+        <li><a href="#" onclick="showPage('contact')">Book a Demo</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 FENIX LIVE DEALER STUDIO. ALL RIGHTS RESERVED.</div>
+    <div class="footer-social">
+      <a href="#" class="soc-btn">in</a>
+      <a href="#" class="soc-btn">𝕏</a>
+      <a href="#" class="soc-btn">▶</a>
+    </div>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ── CURSOR ── */
 const cur=document.getElementById('cur'),ring=document.getElementById('curRing');
 let mx=0,my=0,rx=0,ry=0;
@@ -1302,16 +1248,13 @@ function closeMobile(){
 /* ── PAGE NAV ── */
 function showPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  const target=document.getElementById(id);
-  if(target){target.classList.add('active');}
+  document.getElementById(id).classList.add('active');
   window.scrollTo({top:0,behavior:'instant'});
   setTimeout(()=>{initReveal();initCounters();},80);
   document.querySelectorAll('.nav-links a').forEach(a=>{
     const txt=a.textContent.trim().toLowerCase();
     a.style.color=(txt===id||(txt==='home'&&id==='home'))?'var(--gold)':'';
   });
-  closeMobile();
-  return false;
 }
 
 /* ── PARTICLES ── */
@@ -1327,35 +1270,28 @@ function showPage(id){
 
 /* ── REVEAL ── */
 function initReveal(){
-  const obs=new IntersectionObserver(entries=>{
-    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');}});
-  },{threshold:.05,rootMargin:'0px 0px -40px 0px'});
-  document.querySelectorAll('.reveal:not(.visible),.reveal-l:not(.visible),.reveal-r:not(.visible)').forEach(el=>obs.observe(el));
+  const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:.08});
+  document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el=>obs.observe(el));
 }
 initReveal();
 
 /* ── COUNTERS ── */
 function animCounter(el,target){
-  let c=0;
-  const step=Math.max(target/60,1);
-  const suffix=el.dataset.count==='99'?'%':'+';
-  const t=setInterval(()=>{
-    c+=step;
-    if(c>=target){c=target;clearInterval(t);}
-    el.textContent=Math.round(c)+suffix;
-  },18);
+  let c=0;const step=target/60;const t=setInterval(()=>{c+=step;if(c>=target){c=target;clearInterval(t);}el.textContent=Math.round(c)+(el.dataset.count==='99'?'%':'+');},18);
 }
 function initCounters(){
-  document.querySelectorAll('.stat-num[data-count]:not([data-animated])').forEach(el=>{
-    el.dataset.animated='1';
-    animCounter(el,parseInt(el.dataset.count));
+  document.querySelectorAll('[data-count]').forEach(el=>{
+    const obs=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{if(e.isIntersecting){animCounter(el,+el.dataset.count);obs.unobserve(el);}});
+    },{threshold:.5});
+    obs.observe(el);
   });
 }
 initCounters();
 
 /* ── FAQ TOGGLE ── */
 function toggleFaq(el){
-  const item=el.closest('.faq-item');
+  const item=el.parentElement;
   const isOpen=item.classList.contains('open');
   document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open'));
   if(!isOpen)item.classList.add('open');
@@ -1366,35 +1302,44 @@ function filterGal(btn,cat){
   document.querySelectorAll('.gal-filter').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   document.querySelectorAll('.gal-item').forEach(item=>{
-    if(cat==='all'){item.style.display='';}
-    else{
-      const c=(item.querySelector('.gal-ov-cat')||{}).textContent||'';
-      item.style.display=c.toLowerCase()===cat.toLowerCase()?'':'none';
-    }
+    const itemCat=(item.querySelector('.gal-ov-cat')||{}).textContent||'';
+    item.style.display=(cat==='all'||itemCat.toLowerCase()===cat)?'':'none';
   });
-}
-
-/* ── FORM SUBMIT ── */
-function submitForm(btn){
-  btn.textContent='Sending...';
-  btn.disabled=true;
-  setTimeout(()=>{
-    btn.textContent='Message Sent ✓';
-    btn.style.background='#2a6a2a';
-    setTimeout(()=>{btn.textContent='Send Message';btn.style.background='';btn.disabled=false;},3000);
-  },1200);
 }
 
 /* ── TILT ── */
-document.querySelectorAll('.tilt').forEach(card=>{
-  card.addEventListener('mousemove',e=>{
-    const r=card.getBoundingClientRect();
-    const x=((e.clientX-r.left)/r.width-.5)*12;
-    const y=((e.clientY-r.top)/r.height-.5)*-12;
-    card.style.transform=`perspective(600px) rotateX(${y}deg) rotateY(${x}deg) translateY(-3px)`;
+document.querySelectorAll('.tilt').forEach(el=>{
+  el.addEventListener('mousemove',e=>{
+    const r=el.getBoundingClientRect();
+    const x=(e.clientX-r.left)/r.width-.5;
+    const y=(e.clientY-r.top)/r.height-.5;
+    el.style.transform=`perspective(600px) rotateY(${x*10}deg) rotateX(${-y*10}deg)`;
   });
-  card.addEventListener('mouseleave',()=>{card.style.transform='';});
+  el.addEventListener('mouseleave',()=>{el.style.transform='';});
 });
+
+/* ── FORM SUBMIT ── */
+function submitForm(btn){
+  btn.textContent='Sending...';btn.disabled=true;
+  setTimeout(()=>{btn.textContent='Message Sent ✓';btn.style.background='var(--gold-d)';},1200);
+}
+
+/* ── STORY NAV ── */
+document.querySelectorAll('.story-nav-item').forEach((item,i)=>{
+  item.addEventListener('click',()=>{
+    document.querySelectorAll('.story-nav-item').forEach(n=>n.classList.remove('active'));
+    item.classList.add('active');
+    document.querySelectorAll('.story-block').forEach((b,j)=>{
+      b.style.display=j===i?'block':'none';
+    });
+  });
+});
+// Show only first story block by default
+(function(){
+  const blocks=document.querySelectorAll('.story-block');
+  blocks.forEach((b,i)=>b.style.display=i===0?'block':'none');
+})();
+
 </script>
 </body>
 </html>
